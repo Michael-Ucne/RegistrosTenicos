@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RegistrosTenicos.Components;
 using RegistrosTenicos.DAL;
+using RegistrosTenicos.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,9 @@ var ConStr = builder.Configuration.GetConnectionString("NpgsqlConStr");
 // Agremos el contexto al builder con el ConStr
 builder.Services.AddDbContextFactory<Contexto>(o => o.UseNpgsql(ConStr));
 
+
+// Inyeccion del service
+builder.Services.AddScoped<TecnicosServices>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
