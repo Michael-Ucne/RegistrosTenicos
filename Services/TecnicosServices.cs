@@ -23,6 +23,14 @@ namespace RegistrosTenicos.Services
             return await contexto.SaveChangesAsync() > 0;
         }
 
+        // Metodo Modificar 
+        private async Task<bool> Modificar(Tecnicos tecnicos)
+        {
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            contexto.Update(tecnicos);
+            return await contexto.SaveChangesAsync() > 0;
+        }
+
         // Metodo Guardar
         public async Task<bool> Guardar(Tecnicos tecnicos)
         {
