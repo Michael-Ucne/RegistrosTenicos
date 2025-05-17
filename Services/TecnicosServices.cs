@@ -44,5 +44,13 @@ namespace RegistrosTenicos.Services
                 return await Modificar(tecnicos);
             }
         }
+
+        // Metodo Buscar
+        public async Task<Tecnicos?> Buscar(int tecnicoId)
+        {
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            return await contexto.Tecnicos.Include(d => d.TecnicoId)
+                .FirstOrDefaultAsync(t => t.TecnicoId == tecnicoId);
+        }
     }
 }
