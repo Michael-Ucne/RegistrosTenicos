@@ -9,7 +9,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 // Obtenemos el ConStr para usarlo en el contexto
-var ConStr = builder.Configuration.GetConnectionString("SqlConStr");
+var ConStr = builder.Configuration.GetConnectionString("NpgsqlConStr");
 
 // Agremos el contexto al builder con el ConStr
 builder.Services.AddDbContextFactory<Contexto>(o => o.UseNpgsql(ConStr));
