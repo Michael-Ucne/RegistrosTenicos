@@ -14,5 +14,19 @@ namespace RegistrosTenicos.Services
             return await contexto.Tecnicos
                 .AnyAsync(t => t.TecnicoId == tecnicoId);
         }
+
+        // Metodo Guardar
+        public async Task<bool> Guardar(Tecnicos tecnicos)
+        {
+            tecnicos.TecnicoId = tecnicos.TecnicoId;
+            if (!await Existe(tecnicos.TecnicoId))
+            {
+              return await Insertar(tecnicos);
+            }
+            else
+            {
+                return await Modificar(tecnicos);
+            }
+        }
     }
 }
