@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using RegistrosTenicos.Components;
+using RegistrosTenicos.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,9 @@ builder.Services.AddRazorComponents()
 
 // Obtenemos el ConStr para usarlo en el contexto
 var ConStr = builder.Configuration.GetConnectionString("SqlConStr");
+
+// Agremos el contexto al builder con el ConStr
+builder.Services.AddDbContextFactory<Contexto>(o => o.UseNpgsql(ConStr));
 
 var app = builder.Build();
 
