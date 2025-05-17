@@ -15,6 +15,14 @@ namespace RegistrosTenicos.Services
                 .AnyAsync(t => t.TecnicoId == tecnicoId);
         }
 
+        // Metodo Insertar
+        private async Task<bool> Insertar(Tecnicos tecnicos)
+        {
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            contexto.Tecnicos.Add(tecnicos);
+            return await contexto.SaveChangesAsync() > 0;
+        }
+
         // Metodo Guardar
         public async Task<bool> Guardar(Tecnicos tecnicos)
         {
