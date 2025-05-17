@@ -52,5 +52,17 @@ namespace RegistrosTenicos.Services
             return await contexto.Tecnicos.Include(d => d.TecnicoId)
                 .FirstOrDefaultAsync(t => t.TecnicoId == tecnicoId);
         }
+
+        // Metodo Eliminar
+        public async Task<bool> Eliminar(int tecnicoId)
+        {
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            return await contexto.Tecnicos
+                .AsNoTracking()
+                .Where(t => t.TecnicoId != tecnicoId)
+                .ExecuteDeleteAsync() > 0;
+        }
+
+
     }
 }
