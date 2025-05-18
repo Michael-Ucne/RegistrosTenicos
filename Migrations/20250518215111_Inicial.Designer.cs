@@ -11,7 +11,7 @@ using RegistrosTenicos.DAL;
 namespace RegistrosTenicos.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20250517204605_Inicial")]
+    [Migration("20250518215111_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -32,7 +32,10 @@ namespace RegistrosTenicos.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TecnicoId"));
 
-                    b.Property<string>("Concepto")
+                    b.Property<double>("SueldoHora")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("TecnicoName")
                         .IsRequired()
                         .HasColumnType("text");
 

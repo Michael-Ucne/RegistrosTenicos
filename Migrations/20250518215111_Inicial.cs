@@ -17,7 +17,8 @@ namespace RegistrosTenicos.Migrations
                 {
                     TecnicoId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Concepto = table.Column<string>(type: "text", nullable: false)
+                    TecnicoName = table.Column<string>(type: "text", nullable: false),
+                    SueldoHora = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -29,7 +29,10 @@ namespace RegistrosTenicos.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TecnicoId"));
 
-                    b.Property<string>("Concepto")
+                    b.Property<double>("SueldoHora")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("TecnicoName")
                         .IsRequired()
                         .HasColumnType("text");
 
