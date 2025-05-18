@@ -7,7 +7,10 @@ namespace RegistrosTenicos.Models
         [Key]
         public int TecnicoId { get; set; }
 
-        [Required(ErrorMessage = "Este campo es requerido")]
-        public string Concepto { get; set; } = null!;
+        [Required(ErrorMessage = "El Nombre es Requerido")]
+        public string TecnicoName { get; set; } = null!;
+
+        [Required(ErrorMessage = "El Sueldo es Requerido")]
+        public double SueldoHora { get; set; }
     }
 }

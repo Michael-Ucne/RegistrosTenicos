@@ -18,6 +18,7 @@ builder.Services.AddDbContextFactory<Contexto>(o => o.UseNpgsql(ConStr));
 
 // Inyeccion del service
 builder.Services.AddScoped<TecnicosServices>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
