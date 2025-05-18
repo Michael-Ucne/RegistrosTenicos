@@ -60,7 +60,7 @@ namespace RegistrosTenicos.Services
             await using var contexto = await DbFactory.CreateDbContextAsync();
             return await contexto.Tecnicos
                 .AsNoTracking()
-                .Where(t => t.TecnicoId != tecnicoId)
+                .Where(t => t.TecnicoId == tecnicoId)
                 .ExecuteDeleteAsync() > 0;
         }
 
