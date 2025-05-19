@@ -9,7 +9,7 @@
         <div class="card-header space-between">
             <h5 class="card-title text-cente">Registro de Tecnicos</h5>
             <a href="/Tecnico/Create" class="btn btn-primary">
-                <span class="bi bi-plus-square bi-trask mt-3"</span> Crear
+                <span class="bi bi-plus-square bi-trask mt-3"/> Crear
             </a>
         </div>
 
@@ -119,6 +119,4 @@
         await tecnicosServices.Eliminar(id);
         tecnicos = await tecnicosServices.Listar((t) => t != null);
     }
-
-
 }
