@@ -59,7 +59,7 @@
 
 @code
 {
-    private string TecnicoExiste = "";
+    private string Mensaje = "";
 
     private Tecnicos Tecnico { get; set; } = new Tecnicos();
 
@@ -68,7 +68,7 @@
         List<Tecnicos> tecnicos = await tecnicosServices.Listar(t => t.TecnicoName == Tecnico.TecnicoName);
         if(tecnicos.Count == 1 && (tecnicos[0].TecnicoId != Tecnico.TecnicoId))
         {
-            TecnicoExiste = "Ya existe un Tenico con ese nombre";
+            Mensaje = "Ya existe un Tenico con ese nombre";
             return;
         }
         await tecnicosServices.Guardar(Tecnico);

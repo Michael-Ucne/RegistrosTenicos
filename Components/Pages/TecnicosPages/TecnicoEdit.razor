@@ -27,7 +27,7 @@
                 <div class="mb-3">
                     <label class="alert-warning">
                         <strong>
-                            @TecnicoExiste
+                            @Mensaje
                         </strong>
                     </label>
                     <label class="form-label">
@@ -55,7 +55,12 @@
                     <a href="/Tecnico/Index" class="btn-secondary">
                         <span class="bi bi-arrow-left>"/>
                     </a>
-                    <button type="submit" class="btn btn-primary bi bi-floppy">Guardar</button>
+                    <button type="submit" class="btn btn-primary bi bi-floppy"> Guardar</button>
+
+                    <a href="/Tecnico/Index" class="btn btn-danger">
+                        <span class="bi bi-arrow-left"> </span>
+                        Retroceder
+                    </a>
                 </div> 
             </div>
         </div>
@@ -66,16 +71,21 @@
 
     [Parameter] public int TecnicoId { get; set; }
 
-    private string TecnicoExiste = "";
+    private string Mensaje = "";
 
     private Tecnicos Tecnico { get; set; } = new Tecnicos();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Tecnico = await tecnicosServices.Buscar(TecnicoId);
+    }
 
     public async Task Guardar()
     {
         List<Tecnicos> tecnicos = await tecnicosServices.Listar(t => t.TecnicoName == Tecnico.TecnicoName);
         if (tecnicos.Count == 1 && (tecnicos[0].TecnicoId != Tecnico.TecnicoId))
         {
-            TecnicoExiste = "Ya existe un Tenico con ese nombre";
+            Mensaje = "Ya existe un Tenico con ese nombre";
             return;
         }
         await tecnicosServices.Guardar(Tecnico);
