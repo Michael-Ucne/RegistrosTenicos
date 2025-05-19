@@ -50,7 +50,8 @@
                         <th>TecnicoID</th>
                         <th>Nombres</th>
                         <th>Sueldo por Hora</th>
-                        <th colspan="2" class="text-center">Acciones</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,14 +64,14 @@
                             <td> @tecnico.SueldoHora</td>
 
                             @*Boton de Editar*@
-                            <td class="text-center">
+                            <td>
                                 <a href="/Tecnico/Edit/@tecnico.TecnicoId" class="btn btn-outline-success btn-sm">
                                     <i class="bi bi-pencil-square"/>
                                 </a>
                             </td>
 
                             @*Boton de ELiminar*@
-                            <td class="text-center">
+                            <td>
                                 <a href="/Tecnico/Delete/@tecnico.TecnicoId" class="btn btn btn-outline-danger btn-sm">
                                     <i class="bi bi-trash" />
                                 </a>
