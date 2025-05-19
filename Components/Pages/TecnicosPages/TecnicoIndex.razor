@@ -68,9 +68,10 @@
 
                             @*Boton de ELiminar*@
                             <td class="text-center">
-                                <button class="btn btn-outline-danger btn-sm" @onclick="() => Eliminar(tecnico.TecnicoId)">
-                                    <i class="bi bi-trash"/>
-                                </button>
+                                <a href="/Tecnico/Delete/@tecnico.TecnicoId" class="btn btn btn-outline-danger btn-sm">
+                                    <i class="bi bi-trash" />
+                                </a>
+
                             </td>
                         </tr>                        
                     }
@@ -107,9 +108,5 @@
         }
     }
 
-    private async Task Eliminar(int id)
-    {
-        await tecnicosServices.Eliminar(id);
-        tecnicos = await tecnicosServices.Listar((t) => t != null);
-    }
+
 }
