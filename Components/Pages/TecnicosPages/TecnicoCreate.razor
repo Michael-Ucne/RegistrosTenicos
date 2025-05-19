@@ -20,7 +20,7 @@
                 <div class="mb-3">
                     <label class="form-label">
                         <strong>TecnicoID</strong>
-                        <InputNumber class="form-control" @bind-Value="Tecnico.TecnicoId"></InputNumber>
+                        <InputNumber class="form-control" @bind-Value="Tecnico.TecnicoId" readonly></InputNumber>
                     </label>
                 </div>
 
@@ -44,12 +44,12 @@
 
                 @*footer*@
                 <div class="card-footer text-center mt-2">
-                    <a href="/Tecnico/Index" class="btn btn-secondary"> 
+                    <button type="button" class="btn btn-primary bi bi-file-earmark-plus" @onclick="Nuevo"> Nuevo</button>
+                    <button type="submit" class="btn btn-success bi bi-floppy"> Guardar</button>
+                    <a href="/Tecnico/Index" class="btn btn-danger">
                         <span class="bi bi-arrow-left"> </span>
-                        Volver
+                        Retroceder
                     </a>
-
-                    <button type="submit" class="btn btn-primary bi bi-floppy"> Guardar</button>
                 </div>
 
             </div>
@@ -63,7 +63,7 @@
 
     private Tecnicos Tecnico { get; set; } = new Tecnicos();
 
-    public async Task Guardar()
+    private async Task Guardar()
     {
         List<Tecnicos> tecnicos = await tecnicosServices.Listar(t => t.TecnicoName == Tecnico.TecnicoName);
         if(tecnicos.Count == 1 && (tecnicos[0].TecnicoId != Tecnico.TecnicoId))
@@ -73,5 +73,11 @@
         }
         await tecnicosServices.Guardar(Tecnico);
         navigationManager.NavigateTo(uri:"/Tecnico/Index");
+    }
+
+    private void Nuevo()
+    {
+        Tecnico = new Tecnicos();
+        StateHasChanged();
     }
 }
