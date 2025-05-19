@@ -48,14 +48,14 @@
 
                 @*footer*@
                 <div class="card-footer text-center mt-2">
-                    <button type="button" class="btn btn-primary bi bi-file-earmark-plus" @onclick="Nuevo"> Nuevo</button>
-                    <button type="submit" class="btn btn-success bi bi-floppy"> Guardar</button>
-                    <a href="/Tecnico/Index" class="btn btn-danger">
-                        <span class="bi bi-arrow-left"> </span>
-                        Volver
-                    </a>
+                    <div class="btn-group" role="group" aria-label="Acciones unidas">
+                        <button type="button" class="btn btn-outline-primary bi bi-file-earmark-plus" @onclick="Nuevo"> Nuevo</button>
+                        <button type="submit" class="btn btn-outline-success bi bi-floppy"> Guardar</button>
+                        <a href="/Tecnico/Index" class="btn btn-outline-danger">
+                            <span class="bi bi-arrow-left"></span> Volver
+                        </a>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
