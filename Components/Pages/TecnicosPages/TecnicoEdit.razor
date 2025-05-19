@@ -56,14 +56,13 @@
 
                 @*Footer*@
                 <div class="card-footer text-center mt-2">
-                    <a href="/Tecnico/Index" class="btn-secondary">
-                        <span class="bi bi-arrow-left>"/>
-                    </a>
-                    <button type="submit" class="btn btn-primary bi bi-floppy"> Guardar</button>
+                    <button type="button" class="btn btn-primary bi bi-trash" @onclick="() => Eliminar()"> Eliminar</button>
+
+                    <button type="submit" class="btn btn-success bi bi-floppy"> Guardar</button>
 
                     <a href="/Tecnico/Index" class="btn btn-danger">
                         <span class="bi bi-arrow-left"> </span>
-                        Retroceder
+                        Volver
                     </a>
                 </div> 
             </div>
@@ -94,5 +93,13 @@
         }
         await tecnicosServices.Guardar(Tecnico);
         navigationManager.NavigateTo(uri: "/Tecnico/Index");
+    }
+
+    private async Task Eliminar()
+    {
+        List<Tecnicos> tecnicos = new List<Tecnicos>();
+        await tecnicosServices.Eliminar(TecnicoId);
+        tecnicos = await tecnicosServices.Listar((t) => t != null);
+        navigationManager.NavigateTo("/Tecnico/Index");
     }
 }
