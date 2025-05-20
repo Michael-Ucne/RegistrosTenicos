@@ -57,7 +57,7 @@
                 @*Footer*@
                 <div class="card-footer text-center mt-2">
                     <div class="btn-group" role="group" aria-label="Acciones unidas">
-                        <button type="button" class="btn btn-outline-primary bi bi-trash" @onclick="() => Eliminar()"> Eliminar</button>
+                        <a href="/Tecnico/Delete/@TecnicoId" class="btn btn-outline-primary bi bi-trash"> Eliminar</a>
                         <button type="submit" class="btn btn-outline-success bi bi-floppy"> Guardar</button>
                         <a href="/Tecnico/Index" class="btn btn-outline-secondary">
                             <span class="bi bi-arrow-left"></span> Volver
@@ -92,13 +92,5 @@
         }
         await tecnicosServices.Guardar(Tecnico);
         navigationManager.NavigateTo(uri: "/Tecnico/Index");
-    }
-
-    private async Task Eliminar()
-    {
-        List<Tecnicos> tecnicos = new List<Tecnicos>();
-        await tecnicosServices.Eliminar(TecnicoId);
-        tecnicos = await tecnicosServices.Listar((t) => t != null);
-        navigationManager.NavigateTo("/Tecnico/Index");
     }
 }
