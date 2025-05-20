@@ -75,17 +75,17 @@
 
     private string Mensaje = "";
 
-    private Tecnicos? Tecnico { get; set; } = new Tecnicos();
+    private Tecnicos Tecnico { get; set; } = new Tecnicos();
 
     protected override async Task OnInitializedAsync()
     {
-        Tecnico = await tecnicosServices.Buscar(TecnicoId);
+        Tecnico = await tecnicosServices.Buscar(TecnicoId) ?? new Tecnicos();
     }
 
     public async Task Guardar()
     {
         List<Tecnicos> tecnicos = await tecnicosServices.Listar(t => t.TecnicoName == Tecnico.TecnicoName);
-        if (tecnicos.Count == 1 && (tecnicos[0].TecnicoId != Tecnico.TecnicoId))
+        if (tecnicos.Count == 1 && (tecnicos[0].TecnicoId != Tecnico?.TecnicoId))
         {
             Mensaje = "Ya existe un Tenico con ese nombre";
             return;
