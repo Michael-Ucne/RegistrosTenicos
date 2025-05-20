@@ -1,0 +1,77 @@
+﻿@page "/Tecnico/Delete/{TecnicoId:int}"
+@inject TecnicosServices tecnicosServices
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+@*HTML*@
+<PageTitle>Eliminar Tecnico</PageTitle>
+<EditForm Model="Tecnico" OnValidSubmit="Eliminar">
+    <div class="card shadow-lg">
+        <div class="card-header text-center bg-primary text-white">
+            <h5 class="card-title">
+                <strong>
+                    Eliminar Tecnico
+                </strong>
+            </h5>
+        </div>
+        <div class="card-subtitle text-center bg-danger text-white">
+            <h5 class="card-title">¿Estas seguro de querer eliminar a este Tecnico?</h5>
+        </div>
+        <div class="card-body">
+
+            @*TecnicoId*@
+            <div class="mb-3">
+                <label class="form-label">
+                    <strong>Tecnico ID: </strong>
+                    @TecnicoId
+                </label>
+            </div>
+
+            @*Nombre*@
+            <div class="mb-3">
+                <label class="form-label">
+                    <strong>Nombre: </strong>
+                    @Tecnico.TecnicoName
+                </label>
+            </div>
+
+            @*SueldoHora*@
+            <div class="mb-3">
+                <label class="form-label">
+                    <strong>Sueldo por Hora: </strong>
+                    @Tecnico.SueldoHora.ToString("N2")
+                </label>
+            </div>
+
+            @*Footer*@
+            <div class="card-footer text-center mt-2">
+                <div class="btn-group" role="group" aria-label="Acciones unidas">
+                    <a href="/Tecnico/Delete/@TecnicoId" class="btn btn-outline-primary bi bi-trash"> Eliminar</a>
+
+                    <a href="/Tecnico/Edit/@Tecnico.TecnicoId" class="btn btn-outline-secondary">
+                        <span class="bi bi-arrow-left"></span> Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter] public int TecnicoId { get; set; }
+    private Tecnicos? Tecnico { get; set; } = new Tecnicos();
+    List<Tecnicos> tecnicos { get; set; } = new List<Tecnicos>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Tecnico = await tecnicosServices.Buscar(TecnicoId);
+    }
+
+    private async Task Eliminar()
+    {
+        await tecnicosServices.Eliminar(TecnicoId);
+        tecnicos = await tecnicosServices.Listar((t) => t != null);
+        navigationManager.NavigateTo("/Tecnico/Index");
+    }
+}
