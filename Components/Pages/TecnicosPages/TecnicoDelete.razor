@@ -31,7 +31,7 @@
             <div class="mb-3">
                 <label class="form-label">
                     <strong>Nombre: </strong>
-                    @Tecnico.TecnicoName
+                    @Tecnico?.TecnicoName
                 </label>
             </div>
 
@@ -39,7 +39,7 @@
             <div class="mb-3">
                 <label class="form-label">
                     <strong>Sueldo por Hora: </strong>
-                    @Tecnico.SueldoHora.ToString("N2")
+                    @Tecnico?.SueldoHora.ToString("N2")
                 </label>
             </div>
 
