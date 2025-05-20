@@ -50,7 +50,7 @@
             <table class="table table-striped table-hover">
                 <thead class="table text-black">
                     <tr>
-                        <th>TecnicoID</th>
+                        <th>Tecnico ID</th>
                         <th>Nombres</th>
                         <th>Sueldo por Hora</th>
                         <th>Editar</th>
@@ -63,7 +63,7 @@
                             @*Detalle*@
                             <td> @tecnico.TecnicoId</td>
                             <td> @tecnico.TecnicoName</td>
-                            <td> @tecnico.SueldoHora</td>
+                            <td> @tecnico.SueldoHora.ToString("N2")</td>
 
                             @*Boton de Editar*@
                             <td>
@@ -105,6 +105,4 @@
             tecnicos = await tecnicosServices.Listar((t) => t.SueldoHora.ToString().Contains(ValorFiltro));
         }
     }
-
-
 }
