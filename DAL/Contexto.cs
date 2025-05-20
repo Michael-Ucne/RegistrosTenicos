@@ -3,9 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RegistrosTenicos.DAL;
 
-public class Contexto : DbContext
+public class Contexto(DbContextOptions<Contexto> options) : DbContext(options)
 {
-    public Contexto(DbContextOptions<Contexto> options) : base(options) { }
-
     public DbSet<Tecnicos> Tecnicos { get; set; }
 }
