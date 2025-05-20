@@ -19,7 +19,7 @@
             @*TecnicoId*@
             <div class="mb-3">
                 <label class="form-label">
-                    <strong>TecnicoId: </strong>
+                    <strong>Tecnico ID: </strong>
                     @TecnicoId
                 </label>
             </div>
@@ -35,22 +35,20 @@
             @*SueldoHora*@
             <div class="mb-3">
                 <label class="form-label">
-                    <strong>SueldoHora: </strong>
-                    @Tecnico.SueldoHora
+                    <strong>Sueldo por Hora: </strong>
+                    @Tecnico.SueldoHora.ToString("N2")
                 </label>
             </div>
 
             @*Footer*@
             <div class="card-footer text-center mt-2">
-                <a href="/Tecnico/Index" class="btn-secondary">
-                    <span class="bi bi-arrow-left>" />
-                </a>
-                <button type="submit" class="btn btn-danger bi bi-trash"> Eliminar</button>
+                <div class="btn-group" role="group" aria-label="Acciones unidas">
+                    <a href="/Tecnico/Delete/@TecnicoId" class="btn btn-outline-primary bi bi-trash"> Eliminar</a>
 
-                <a href="/Tecnico/Index" class="btn btn-primary">
-                    <span class="bi bi-arrow-left"> </span>
-                    Retroceder
-                </a>
+                    <a href="/Tecnico/Edit/@Tecnico.TecnicoId" class="btn btn-outline-secondary">
+                        <span class="bi bi-arrow-left"></span> Volver
+                    </a>
+                </div>
             </div>
         </div>
     </div>
