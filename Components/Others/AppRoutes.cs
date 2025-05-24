@@ -10,7 +10,7 @@
 
         // Routers de Clientes
         public static string CIndex => "/Cliente";
-        public static string CCraete => "/Cliente/Create";
+        public static string CCreate => "/Cliente/Create";
         public static string CEdit => "/Cliente/Edit";
     }
 }
