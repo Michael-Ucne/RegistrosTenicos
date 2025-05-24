@@ -1,69 +1,95 @@
-﻿@page "/Tecnico/Edit/{TecnicoId:int}"
-@inject TecnicosServices tecnicosServices
+﻿@page "/Cliente/Edit/{ClienteId:int}"
+@inject ClientesServices clientesServices
 @inject NavigationManager navigationManager
 @rendermode InteractiveServer
 
-@*HTML*@
-<PageTitle>Crear Tecnico</PageTitle>
-<EditForm Model="Tecnico" OnValidSubmit="Guardar">
-    <DataAnnotationsValidator/>
+<PageTitle>Editar Cliente</PageTitle>
+
+<EditForm Model="Cliente" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
 
     <div class="container">
         <div class="card shadow-lg">
             <div class="card-header text-center bg-primary text-white">
                 <h5 class="card-title">
                     <strong>
-                        Editar Tecnico
+                        Editar Cliente
                     </strong>
                 </h5>
             </div>
 
             <div class="card-body">
-                @*TecnicoId*@
+                @* ClienteId *@
                 <div class="mb-3">
                     <label class="form-label">
-                        <strong>Tecnico ID</strong>
+                        <strong>Cliente ID</strong>
                     </label>
-                    <InputNumber class="form-control" @bind-Value="Tecnico.TecnicoId" readonly/>
+                    <InputNumber class="form-control" @bind-Value="Cliente.ClienteId" readonly />
                 </div>
 
-                @*Nombres*@
-                <div class="mb-3">
-                    <label class="alert-warning">
-                        <strong>
-                            @Mensaje
-                        </strong>
-                    </label>
-                    <label class="form-label">
-                        <strong>
-                            Nombres
-                        </strong>
-                    </label>
-                    <InputText class="form-control" @bind-Value="Tecnico.TecnicoName"/>
-                    <ValidationMessage For="(() => Tecnico.TecnicoName)"/>
-                </div>
+                @* Mostrar mensaje igual que en el ejemplo *@
+                <label class="alert-warning">
+                    <strong>
+                        @Mensaje
+                    </strong>
+                </label>
 
-                @*SueldoHora*@
+                @* ClienteName *@
                 <div class="mb-3">
                     <label class="form-label">
-                        <strong>
-                            SueldoHora
-                        </strong>
+                        <strong>Nombre</strong>
                     </label>
-                    <InputNumber class="form-control" @bind-Value="Tecnico.SueldoHora"/>
-                    <ValidationMessage For="(() => Tecnico.SueldoHora)"/>
+                    <InputText class="form-control" @bind-Value="Cliente.ClienteName" />
+                    <ValidationMessage For="(() => Cliente.ClienteName)" />
                 </div>
 
-                @*Footer*@
+                @* Direccion *@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Direccion</strong>
+                    </label>
+                    <InputText class="form-control" @bind-Value="Cliente.Direccion" />
+                    <ValidationMessage For="(() => Cliente.Direccion)" />
+                </div>
+
+                @* RNC *@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>RNC</strong>
+                    </label>
+                    <InputText class="form-control" @bind-Value="Cliente.RNC" />
+                    <ValidationMessage For="(() => Cliente.RNC)" />
+                </div>
+
+                @* LimiteCredito *@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Limite de Credito</strong>
+                    </label>
+                    <InputNumber class="form-control" @bind-Value="Cliente.LimiteCredito" />
+                    <ValidationMessage For="(() => Cliente.LimiteCredito)" />
+                </div>
+
+                @* FechaIngreso *@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Fecha Ingreso</strong>
+                    </label>
+                    <InputDate class="form-control" @bind-Value="Cliente.FechaIngreso" />
+                    <ValidationMessage For="(() => Cliente.FechaIngreso)" />
+                </div>
+
+                @* Footer *@
                 <div class="card-footer text-center mt-2">
                     <div class="btn-group" role="group" aria-label="Acciones unidas">
-                        <a href="@AppRoutes.TDelete/@TecnicoId" class="btn btn-outline-primary bi bi-trash"> Eliminar</a>
+                        <button type="button" class="btn btn-outline-primary bi bi-file-earmark-plus" @onclick="Nuevo"> Limpiar</button>
                         <button type="submit" class="btn btn-outline-success bi bi-floppy"> Guardar</button>
-                        <a href="@AppRoutes.TIndex" class="btn btn-outline-secondary">
+                        <a href="@AppRoutes.CIndex" class="btn btn-outline-secondary">
                             <span class="bi bi-arrow-left"></span> Volver
                         </a>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -71,26 +97,40 @@
 
 @code {
 
-    [Parameter] public int TecnicoId { get; set; }
+    [Parameter] public int ClienteId { get; set; }
 
     private string Mensaje = "";
 
-    private Tecnicos Tecnico { get; set; } = new Tecnicos();
+    private Clientes Cliente { get; set; } = new Clientes();
 
     protected override async Task OnInitializedAsync()
     {
-        Tecnico = await tecnicosServices.Buscar(TecnicoId) ?? new Tecnicos();
+        Cliente = await clientesServices.Buscar(ClienteId) ?? new Clientes();
     }
 
-    public async Task Guardar()
+    private async Task Guardar()
     {
-        List<Tecnicos> tecnicos = await tecnicosServices.Listar(t => t.TecnicoName == Tecnico.TecnicoName);
-        if (tecnicos.Count == 1 && (tecnicos[0].TecnicoId != Tecnico?.TecnicoId))
+        var clientesConNombre = await clientesServices.Listar(c => c.ClienteName == Cliente.ClienteName);
+        if (clientesConNombre.Count == 1 && clientesConNombre[0].ClienteId != Cliente.ClienteId)
         {
-            Mensaje = "Ya existe un Tenico con ese nombre";
+            Mensaje = "Ya existe un cliente con ese nombre";
             return;
         }
-        await tecnicosServices.Guardar(Tecnico);
-        navigationManager.NavigateTo(uri: AppRoutes.TIndex);
+
+        var clientesConRnc = await clientesServices.Listar(c => c.RNC == Cliente.RNC);
+        if (clientesConRnc.Count == 1 && clientesConRnc[0].ClienteId != Cliente.ClienteId)
+        {
+            Mensaje = "Ya existe un cliente con ese RNC";
+            return;
+        }
+
+        await clientesServices.Guardar(Cliente);
+        navigationManager.NavigateTo(AppRoutes.CIndex);
+    }
+
+    private void Nuevo()
+    {
+        Cliente = new Clientes();
+        StateHasChanged();
     }
 }
