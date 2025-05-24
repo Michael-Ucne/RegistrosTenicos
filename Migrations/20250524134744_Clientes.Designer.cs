@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RegistrosTenicos.DAL;
@@ -11,9 +12,11 @@ using RegistrosTenicos.DAL;
 namespace RegistrosTenicos.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20250524134744_Clientes")]
+    partial class Clientes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,10 +33,6 @@ namespace RegistrosTenicos.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ClienteId"));
 
-                    b.Property<string>("ClienteName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Direccion")
                         .IsRequired()
                         .HasColumnType("text");
@@ -43,6 +42,10 @@ namespace RegistrosTenicos.Migrations
 
                     b.Property<double>("LimiteCredito")
                         .HasColumnType("double precision");
+
+                    b.Property<string>("ClienteName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("RNC")
                         .IsRequired()

@@ -22,7 +22,7 @@
                 @*TecnicoId*@
                 <div class="mb-3">
                     <label class="form-label">
-                        <strong>TecnicoId</strong>
+                        <strong>Tecnico ID</strong>
                     </label>
                     <InputNumber class="form-control" @bind-Value="Tecnico.TecnicoId" readonly/>
                 </div>
@@ -57,9 +57,9 @@
                 @*Footer*@
                 <div class="card-footer text-center mt-2">
                     <div class="btn-group" role="group" aria-label="Acciones unidas">
-                        <button type="button" class="btn btn-outline-primary bi bi-trash" @onclick="() => Eliminar()"> Eliminar</button>
+                        <a href="@AppRoutes.TDelete/@TecnicoId" class="btn btn-outline-primary bi bi-trash"> Eliminar</a>
                         <button type="submit" class="btn btn-outline-success bi bi-floppy"> Guardar</button>
-                        <a href="/Tecnico/Index" class="btn btn-outline-danger">
+                        <a href="@AppRoutes.TIndex" class="btn btn-outline-secondary">
                             <span class="bi bi-arrow-left"></span> Volver
                         </a>
                     </div>
@@ -79,26 +79,18 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Tecnico = await tecnicosServices.Buscar(TecnicoId);
+        Tecnico = await tecnicosServices.Buscar(TecnicoId) ?? new Tecnicos();
     }
 
     public async Task Guardar()
     {
         List<Tecnicos> tecnicos = await tecnicosServices.Listar(t => t.TecnicoName == Tecnico.TecnicoName);
-        if (tecnicos.Count == 1 && (tecnicos[0].TecnicoId != Tecnico.TecnicoId))
+        if (tecnicos.Count == 1 && (tecnicos[0].TecnicoId != Tecnico?.TecnicoId))
         {
             Mensaje = "Ya existe un Tenico con ese nombre";
             return;
         }
         await tecnicosServices.Guardar(Tecnico);
-        navigationManager.NavigateTo(uri: "/Tecnico/Index");
-    }
-
-    private async Task Eliminar()
-    {
-        List<Tecnicos> tecnicos = new List<Tecnicos>();
-        await tecnicosServices.Eliminar(TecnicoId);
-        tecnicos = await tecnicosServices.Listar((t) => t != null);
-        navigationManager.NavigateTo("/Tecnico/Index");
+        navigationManager.NavigateTo(uri: AppRoutes.TIndex);
     }
 }

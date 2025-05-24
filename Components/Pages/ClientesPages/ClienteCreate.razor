@@ -1,0 +1,139 @@
+﻿@page "/Cliente/Create"
+@inject ClientesServices clientesServices
+@inject TecnicosServices tecnicosServices
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Crear Cliente</PageTitle>
+
+<EditForm Model="Cliente" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header text-center bg-primary text-white">
+                <h5 class="card-title"><strong>Registrar Cliente</strong></h5>
+            </div>
+
+            <div class="card-body">
+
+                @*ClienteId | Nombre | Direccion *@
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label"><strong>Cliente ID</strong></label>
+                        <input class="form-control" @bind="Cliente.ClienteId" readonly />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label"><strong>Nombre</strong></label>
+                        <InputText class="form-control" @bind-Value="Cliente.ClienteName" />
+                        <ValidationMessage For="(() => Cliente.ClienteName)" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label"><strong>Direccion</strong></label>
+                        <InputText class="form-control" @bind-Value="Cliente.Direccion" />
+                        <ValidationMessage For="(() => Cliente.Direccion)" />
+                    </div>
+                </div>
+
+                @*RNC | LimiteCredito | FechaIngreso *@
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label"><strong>RNC</strong></label>
+                        <InputText class="form-control" @bind-Value="Cliente.RNC" />
+                        <ValidationMessage For="(() => Cliente.RNC)" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label"><strong>Limite de Credito</strong></label>
+                        <InputNumber class="form-control" @bind-Value="Cliente.LimiteCredito" />
+                        <ValidationMessage For="(() => Cliente.LimiteCredito)" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label"><strong>Fecha Ingreso</strong></label>
+                        <InputDate class="form-control" @bind-Value="Cliente.FechaIngreso" />
+                        <ValidationMessage For="(() => Cliente.FechaIngreso)" />
+                    </div>
+                </div>
+
+                @* Tecnico Encargado*@
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label class="form-label"><strong>Tecnico Encargado</strong></label>
+                        <InputSelect class="form-control" @bind-Value="Cliente.TecnicoEncargadoId">
+                            <option value="">-- Seleccione un tecnico --</option>
+                            @foreach (var tecnico in Tecnicos)
+                            {
+                                <option value="@tecnico.TecnicoId">@tecnico.TecnicoName</option>
+                            }
+                        </InputSelect>
+                        <ValidationMessage For="(() => Cliente.TecnicoEncargadoId)" />
+                    </div>
+                </div>
+
+                @* Footer *@
+                <div class="card-footer text-center mt-2">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-primary bi bi-file-earmark-plus" @onclick="Nuevo"> Limpiar</button>
+                        <button type="submit" class="btn btn-outline-success bi bi-floppy"> Guardar</button>
+                        <a href="@AppRoutes.CIndex" class="btn btn-outline-secondary">
+                            <span class="bi bi-arrow-left"></span> Volver
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+
+@code {
+
+    private string Mensaje = "";
+
+    private Clientes Cliente { get; set; } = new Clientes();
+    private List<Tecnicos> Tecnicos { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Cliente.FechaIngreso = DateTime.UtcNow.Date;
+        Tecnicos = await tecnicosServices.Listar(t => true);
+    }
+
+    private async Task Guardar()
+    {
+        Cliente.FechaIngreso = DateTime.SpecifyKind(Cliente.FechaIngreso, DateTimeKind.Utc);
+
+        var clientesConNombre = await clientesServices.Listar(c => c.ClienteName == Cliente.ClienteName);
+        if (clientesConNombre.Count == 1 && clientesConNombre[0].ClienteId != Cliente.ClienteId)
+        {
+            Mensaje = "Ya existe un cliente con ese nombre";
+            return;
+        }
+
+        var clientesConRnc = await clientesServices.Listar(c => c.RNC == Cliente.RNC);
+        if (clientesConRnc.Count == 1 && clientesConRnc[0].ClienteId != Cliente.ClienteId)
+        {
+            Mensaje = "Ya existe un cliente con ese rnc";
+            return;
+        }
+
+        if (Cliente.FechaIngreso > DateTime.Today)
+        {
+            Mensaje = "La fecha de ingreso no puede ser mayor a la fecha actual.";
+            return;
+        }
+
+        await clientesServices.Guardar(Cliente);
+        navigationManager.NavigateTo(AppRoutes.CIndex);
+    }
+
+    private void Nuevo()
+    {
+        Cliente = new Clientes
+        {
+            FechaIngreso = DateTime.UtcNow.Date
+        };
+        Mensaje = "";
+        StateHasChanged();
+    }
+}
