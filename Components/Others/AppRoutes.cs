@@ -12,5 +12,7 @@
         public static string CIndex => "/Cliente";
         public static string CCreate => "/Cliente/Create";
         public static string CEdit => "/Cliente/Edit";
+        public static string CDelete => "/Cliente/Delete";
+
     }
 }
