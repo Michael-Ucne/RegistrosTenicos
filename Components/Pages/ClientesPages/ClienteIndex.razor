@@ -100,17 +100,5 @@
 
     private async Task Buscar()
     {
-        if (Filtro == "Id")
-        {
-            tecnicos = await tecnicosServices.Listar((t) => t.TecnicoId.ToString().Contains(ValorFiltro));
-        }
-        else if (Filtro == "Nombres")
-        {
-            tecnicos = await tecnicosServices.Listar((t) => t.TecnicoName.ToString().Contains(ValorFiltro));
-        }
-        else if (Filtro == "SueldoHora")
-        {
-            tecnicos = await tecnicosServices.Listar((t) => t.SueldoHora.ToString().Contains(ValorFiltro));
-        }
     }
 }
