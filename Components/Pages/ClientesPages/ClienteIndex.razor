@@ -1,5 +1,5 @@
 ﻿@page "/Cliente"
-@inject TecnicosServices tecnicosServices
+@inject ClientesServices clientesServices
 @inject NavigationManager navigationManager
 @rendermode InteractiveServer
 
@@ -65,17 +65,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var tecnico in tecnicos)
+                    @foreach (var cliente in clientes)
                     {
                         <tr>
-                            @*Detalle*@
-                            <td> @tecnico.TecnicoId</td>
-                            <td> @tecnico.TecnicoName</td>
-                            <td> @tecnico.SueldoHora.ToString("N2")</td>
+                            <td>@cliente.ClienteId</td>
+                            <td>@cliente.Nombre</td>
+                            <td>@cliente.FechaIngreso.ToString("yyyy-MM-dd")</td>
+                            <td>@cliente.Direccion</td>
+                            <td>@cliente.RNC</td>
+                            <td>@cliente.LimiteCredito.ToString("N2")</td>
+                            <td>@cliente.TecnicoEncargadoId</td>
 
-                            @*Boton de Editar*@
                             <td>
-                                <a href="@AppRoutes.TEdit/@tecnico.TecnicoId" class="btn btn-outline-success btn-sm">
+                                <a href="@AppRoutes.CEdit/@cliente.ClienteId" class="btn btn-outline-success btn-sm">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                             </td>
@@ -89,16 +91,44 @@
 
 @code {
 
-    List<Tecnicos> tecnicos { get; set; } = new List<Tecnicos>();
+    List<Clientes> clientes { get; set; } = new List<Clientes>();
     public string Filtro { get; set; } = string.Empty;
     public string ValorFiltro { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        tecnicos = await tecnicosServices.Listar((t) => t != null);
+        clientes = await clientesServices.Listar(c => c != null);
     }
 
     private async Task Buscar()
     {
+        if (Filtro == "Id")
+        {
+            clientes = await clientesServices.Listar(c => c.ClienteId.ToString().Contains(ValorFiltro));
+        }
+        else if (Filtro == "FechaIngreso")
+        {
+            clientes = await clientesServices.Listar(c => c.FechaIngreso.ToString("yyyy-MM-dd").Contains(ValorFiltro));
+        }
+        else if (Filtro == "Nombres")
+        {
+            clientes = await clientesServices.Listar(c => c.Nombre.ToString().Contains(ValorFiltro));
+        }
+        else if (Filtro == "Direccion")
+        {
+            clientes = await clientesServices.Listar(c => c.Direccion.ToString().Contains(ValorFiltro));
+        }
+        else if (Filtro == "Rnc")
+        {
+            clientes = await clientesServices.Listar(c => c.RNC.ToString().Contains(ValorFiltro));
+        }
+        else if (Filtro == "LimiteCredito")
+        {
+            clientes = await clientesServices.Listar(c => c.LimiteCredito.ToString().Contains(ValorFiltro));
+        }
+        else if (Filtro == "TecnicoId")
+        {
+            clientes = await clientesServices.Listar(c => c.TecnicoEncargadoId.ToString().Contains(ValorFiltro));
+        }
     }
 }
