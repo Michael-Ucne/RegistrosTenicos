@@ -18,7 +18,7 @@ namespace RegistrosTenicos.Migrations
                 {
                     ClienteId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Nombre = table.Column<string>(type: "text", nullable: false),
+                    ClienteName = table.Column<string>(type: "text", nullable: false),
                     FechaIngreso = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Direccion = table.Column<string>(type: "text", nullable: false),
                     RNC = table.Column<string>(type: "text", nullable: false),

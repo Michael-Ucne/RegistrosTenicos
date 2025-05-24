@@ -12,8 +12,8 @@ using RegistrosTenicos.DAL;
 namespace RegistrosTenicos.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20250524134744_Clientes")]
-    partial class Clientes
+    [Migration("20250524140445_Correcion de tabla en clientes")]
+    partial class Correciondetablaenclientes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,10 @@ namespace RegistrosTenicos.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ClienteId"));
 
+                    b.Property<string>("ClienteName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Direccion")
                         .IsRequired()
                         .HasColumnType("text");
@@ -42,10 +46,6 @@ namespace RegistrosTenicos.Migrations
 
                     b.Property<double>("LimiteCredito")
                         .HasColumnType("double precision");
-
-                    b.Property<string>("ClienteName")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("RNC")
                         .IsRequired()

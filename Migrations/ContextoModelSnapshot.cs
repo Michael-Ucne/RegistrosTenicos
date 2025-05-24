@@ -30,6 +30,10 @@ namespace RegistrosTenicos.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ClienteId"));
 
+                    b.Property<string>("ClienteName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Direccion")
                         .IsRequired()
                         .HasColumnType("text");
@@ -39,10 +43,6 @@ namespace RegistrosTenicos.Migrations
 
                     b.Property<double>("LimiteCredito")
                         .HasColumnType("double precision");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("RNC")
                         .IsRequired()

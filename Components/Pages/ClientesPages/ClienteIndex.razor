@@ -23,7 +23,7 @@
 
             @*Labels*@
             <div class="row">
-                @*Filtrar por Nombre*@
+                @*Filtrar por ClienteName*@
                 <div class="col-3">
                     <label class="col-form-label">
                         <strong>Filtrar por</strong>
@@ -32,7 +32,7 @@
                         <option value="" selected disabled>Elija una opcion</option>
                         <option value="Id">Id</option>
                         <option value="FechaIngreso">Fecha de Ingreso</option>
-                        <option value="Nombres">Nombres</option>
+                        <option value="ClienteNames">ClienteNames</option>
                         <option value="Direccion">Direccion</option>
                         <option value="Rnc">RNC</option>
                         <option value="LimiteCredito">Limite de Credito</option>
@@ -56,7 +56,7 @@
                     <tr>
                         <th>Cliente ID</th>
                         <th>Fecha de Ingreso</th>
-                        <th>Nombres</th>
+                        <th>ClienteNames</th>
                         <th>Direccion</th>
                         <th>RNC</th>
                         <th>Limite de Credito</th>
@@ -69,7 +69,7 @@
                     {
                         <tr>
                             <td>@cliente.ClienteId</td>
-                            <td>@cliente.Nombre</td>
+                            <td>@cliente.ClienteName</td>
                             <td>@cliente.FechaIngreso.ToString("yyyy-MM-dd")</td>
                             <td>@cliente.Direccion</td>
                             <td>@cliente.RNC</td>
@@ -110,9 +110,9 @@
         {
             clientes = await clientesServices.Listar(c => c.FechaIngreso.ToString("yyyy-MM-dd").Contains(ValorFiltro));
         }
-        else if (Filtro == "Nombres")
+        else if (Filtro == "ClienteNames")
         {
-            clientes = await clientesServices.Listar(c => c.Nombre.ToString().Contains(ValorFiltro));
+            clientes = await clientesServices.Listar(c => c.ClienteName.ToString().Contains(ValorFiltro));
         }
         else if (Filtro == "Direccion")
         {
