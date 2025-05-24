@@ -12,70 +12,52 @@
     <div class="container">
         <div class="card shadow-lg">
             <div class="card-header text-center bg-primary text-white">
-                <h5 class="card-title">
-                    <strong>Registrar Cliente</strong>
-                </h5>
+                <h5 class="card-title"><strong>Registrar Cliente</strong></h5>
             </div>
 
             <div class="card-body">
 
-                @* ClienteId *@
-                <div class="mb-3">
-                    <label class="form-label">
-                        <strong>Cliente ID</strong>
-                        <input class="form-control" @bind="Cliente.ClienteId" readonly>
-                    </label>
-                </div>
-
-                @* Nombre *@
-                <div class="mb-3">
-                    <label class="form-label">
-                        <strong>Nombre</strong>
+                @*ClienteId | Nombre | Direccion *@
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label"><strong>Cliente ID</strong></label>
+                        <input class="form-control" @bind="Cliente.ClienteId" readonly />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label"><strong>Nombre</strong></label>
                         <InputText class="form-control" @bind-Value="Cliente.ClienteName" />
                         <ValidationMessage For="(() => Cliente.ClienteName)" />
-                    </label>
-                </div>
-
-                @* Direccion *@
-                <div class="mb-3">
-                    <label class="form-label">
-                        <strong>Direccion</strong>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label"><strong>Direccion</strong></label>
                         <InputText class="form-control" @bind-Value="Cliente.Direccion" />
                         <ValidationMessage For="(() => Cliente.Direccion)" />
-                    </label>
+                    </div>
                 </div>
 
-                @* RNC *@
-                <div class="mb-3">
-                    <label class="form-label">
-                        <strong>RNC</strong>
+                @*RNC | LimiteCredito | FechaIngreso *@
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label"><strong>RNC</strong></label>
                         <InputText class="form-control" @bind-Value="Cliente.RNC" />
                         <ValidationMessage For="(() => Cliente.RNC)" />
-                    </label>
-                </div>
-
-                @* Limite de Credito *@
-                <div class="mb-3">
-                    <label class="form-label">
-                        <strong>Limite de Credito</strong>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label"><strong>Limite de Credito</strong></label>
                         <InputNumber class="form-control" @bind-Value="Cliente.LimiteCredito" />
                         <ValidationMessage For="(() => Cliente.LimiteCredito)" />
-                    </label>
-                </div>
-
-                @* Fecha Ingreso *@
-                <div class="mb-3">
-                    <label class="form-label">
-                        <strong>Fecha Ingreso</strong>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label"><strong>Fecha Ingreso</strong></label>
                         <InputDate class="form-control" @bind-Value="Cliente.FechaIngreso" />
                         <ValidationMessage For="(() => Cliente.FechaIngreso)" />
-                    </label>
+                    </div>
                 </div>
 
-                @* Tecnico Encargado *@
-                <div class="mb-3">
-                    <label class="form-label">
-                        <strong>Tecnico Encargado</strong>
+                @* Tecnico Encargado*@
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label class="form-label"><strong>Tecnico Encargado</strong></label>
                         <InputSelect class="form-control" @bind-Value="Cliente.TecnicoEncargadoId">
                             <option value="">-- Seleccione un tecnico --</option>
                             @foreach (var tecnico in Tecnicos)
@@ -84,7 +66,7 @@
                             }
                         </InputSelect>
                         <ValidationMessage For="(() => Cliente.TecnicoEncargadoId)" />
-                    </label>
+                    </div>
                 </div>
 
                 @* Footer *@
@@ -103,6 +85,7 @@
     </div>
 </EditForm>
 
+
 @code {
 
     private string Mensaje = "";
@@ -112,11 +95,14 @@
 
     protected override async Task OnInitializedAsync()
     {
+        Cliente.FechaIngreso = DateTime.UtcNow.Date;
         Tecnicos = await tecnicosServices.Listar(t => true);
     }
 
     private async Task Guardar()
     {
+        Cliente.FechaIngreso = DateTime.SpecifyKind(Cliente.FechaIngreso, DateTimeKind.Utc);
+
         var clientesConNombre = await clientesServices.Listar(c => c.ClienteName == Cliente.ClienteName);
         if (clientesConNombre.Count == 1 && clientesConNombre[0].ClienteId != Cliente.ClienteId)
         {
@@ -131,14 +117,23 @@
             return;
         }
 
+        if (Cliente.FechaIngreso > DateTime.Today)
+        {
+            Mensaje = "La fecha de ingreso no puede ser mayor a la fecha actual.";
+            return;
+        }
+
         await clientesServices.Guardar(Cliente);
         navigationManager.NavigateTo(AppRoutes.CIndex);
     }
 
-
     private void Nuevo()
     {
-        Cliente = new Clientes();
+        Cliente = new Clientes
+        {
+            FechaIngreso = DateTime.UtcNow.Date
+        };
+        Mensaje = "";
         StateHasChanged();
     }
 }
