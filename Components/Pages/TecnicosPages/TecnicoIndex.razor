@@ -1,4 +1,4 @@
-﻿@page "/Tecnico/Index"
+﻿@page "/Tecnico"
 @inject TecnicosServices tecnicosServices
 @inject NavigationManager navigationManager
 @rendermode InteractiveServer
@@ -16,7 +16,7 @@
 
         <div class="card-body">
             <div class="d-flex justify-content-end mb-2">
-                <a href="/Tecnico/Create" class="btn btn-success">
+                <a href="@AppRoutes.TCreate" class="btn btn-success">
                     <span class="bi bi-plus-square"></span> Crear
                 </a>
             </div>
@@ -67,7 +67,7 @@
 
                             @*Boton de Editar*@
                             <td>
-                                <a href="/Tecnico/Edit/@tecnico.TecnicoId" class="btn btn-outline-success btn-sm">
+                                <a href="@AppRoutes.TEdit/@tecnico.TecnicoId" class="btn btn-outline-success btn-sm">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                             </td>
