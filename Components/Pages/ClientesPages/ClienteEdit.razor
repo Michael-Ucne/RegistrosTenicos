@@ -82,7 +82,7 @@
                 @* Footer *@
                 <div class="card-footer text-center mt-2">
                     <div class="btn-group" role="group" aria-label="Acciones unidas">
-                        <button type="button" class="btn btn-outline-primary bi bi-file-earmark-plus" @onclick="Nuevo"> Eliminar</button>
+                        <a href="@AppRoutes.CDelete/@ClienteId" class="btn btn-outline-primary bi bi-trash"> Eliminar</a>
                         <button type="submit" class="btn btn-outline-success bi bi-floppy"> Guardar</button>
                         <a href="@AppRoutes.CIndex" class="btn btn-outline-secondary">
                             <span class="bi bi-arrow-left"></span> Volver
@@ -97,7 +97,8 @@
 
 @code {
 
-    [Parameter] public int ClienteId { get; set; }
+    [Parameter] 
+    public int ClienteId { get; set; }
 
     private string Mensaje = "";
 
@@ -126,11 +127,5 @@
 
         await clientesServices.Guardar(Cliente);
         navigationManager.NavigateTo(AppRoutes.CIndex);
-    }
-
-    private void Nuevo()
-    {
-        Cliente = new Clientes();
-        StateHasChanged();
     }
 }
