@@ -1,5 +1,136 @@
-﻿<h3>ClienteEdit</h3>
+﻿@page "/Cliente/Edit/{ClienteId:int}"
+@inject ClientesServices clientesServices
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Editar Cliente</PageTitle>
+
+<EditForm Model="Cliente" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header text-center bg-primary text-white">
+                <h5 class="card-title">
+                    <strong>
+                        Editar Cliente
+                    </strong>
+                </h5>
+            </div>
+
+            <div class="card-body">
+                @* ClienteId *@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Cliente ID</strong>
+                    </label>
+                    <InputNumber class="form-control" @bind-Value="Cliente.ClienteId" readonly />
+                </div>
+
+                @* Mostrar mensaje igual que en el ejemplo *@
+                <label class="alert-warning">
+                    <strong>
+                        @Mensaje
+                    </strong>
+                </label>
+
+                @* ClienteName *@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Nombre</strong>
+                    </label>
+                    <InputText class="form-control" @bind-Value="Cliente.ClienteName" />
+                    <ValidationMessage For="(() => Cliente.ClienteName)" />
+                </div>
+
+                @* Direccion *@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Direccion</strong>
+                    </label>
+                    <InputText class="form-control" @bind-Value="Cliente.Direccion" />
+                    <ValidationMessage For="(() => Cliente.Direccion)" />
+                </div>
+
+                @* RNC *@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>RNC</strong>
+                    </label>
+                    <InputText class="form-control" @bind-Value="Cliente.RNC" />
+                    <ValidationMessage For="(() => Cliente.RNC)" />
+                </div>
+
+                @* LimiteCredito *@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Limite de Credito</strong>
+                    </label>
+                    <InputNumber class="form-control" @bind-Value="Cliente.LimiteCredito" />
+                    <ValidationMessage For="(() => Cliente.LimiteCredito)" />
+                </div>
+
+                @* FechaIngreso *@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Fecha Ingreso</strong>
+                    </label>
+                    <InputDate class="form-control" @bind-Value="Cliente.FechaIngreso" />
+                    <ValidationMessage For="(() => Cliente.FechaIngreso)" />
+                </div>
+
+                @* Footer *@
+                <div class="card-footer text-center mt-2">
+                    <div class="btn-group" role="group" aria-label="Acciones unidas">
+                        <button type="button" class="btn btn-outline-primary bi bi-file-earmark-plus" @onclick="Nuevo"> Eliminar</button>
+                        <button type="submit" class="btn btn-outline-success bi bi-floppy"> Guardar</button>
+                        <a href="@AppRoutes.CIndex" class="btn btn-outline-secondary">
+                            <span class="bi bi-arrow-left"></span> Volver
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</EditForm>
 
 @code {
 
+    [Parameter] public int ClienteId { get; set; }
+
+    private string Mensaje = "";
+
+    private Clientes Cliente { get; set; } = new Clientes();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Cliente = await clientesServices.Buscar(ClienteId) ?? new Clientes();
+    }
+
+    private async Task Guardar()
+    {
+        var clientesConNombre = await clientesServices.Listar(c => c.ClienteName == Cliente.ClienteName);
+        if (clientesConNombre.Count == 1 && clientesConNombre[0].ClienteId != Cliente.ClienteId)
+        {
+            Mensaje = "Ya existe un cliente con ese nombre";
+            return;
+        }
+
+        var clientesConRnc = await clientesServices.Listar(c => c.RNC == Cliente.RNC);
+        if (clientesConRnc.Count == 1 && clientesConRnc[0].ClienteId != Cliente.ClienteId)
+        {
+            Mensaje = "Ya existe un cliente con ese RNC";
+            return;
+        }
+
+        await clientesServices.Guardar(Cliente);
+        navigationManager.NavigateTo(AppRoutes.CIndex);
+    }
+
+    private void Nuevo()
+    {
+        Cliente = new Clientes();
+        StateHasChanged();
+    }
 }
