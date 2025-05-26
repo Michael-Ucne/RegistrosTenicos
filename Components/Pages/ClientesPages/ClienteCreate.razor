@@ -17,56 +17,58 @@
 
             <div class="card-body">
 
-                @*ClienteId | Nombre | Direccion *@
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <label class="form-label"><strong>Cliente ID</strong></label>
-                        <input class="form-control" @bind="Cliente.ClienteId" readonly />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label"><strong>Nombre</strong></label>
-                        <InputText class="form-control" @bind-Value="Cliente.ClienteName" />
-                        <ValidationMessage For="(() => Cliente.ClienteName)" />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label"><strong>Direccion</strong></label>
-                        <InputText class="form-control" @bind-Value="Cliente.Direccion" />
-                        <ValidationMessage For="(() => Cliente.Direccion)" />
-                    </div>
+                @*ClienteId*@
+                <div class="col-md-4">
+                    <label class="form-label"><strong>Cliente ID</strong></label>
+                    <input class="form-control" @bind="Cliente.ClienteId" readonly />
                 </div>
 
-                @*RNC | LimiteCredito | FechaIngreso *@
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <label class="form-label"><strong>RNC</strong></label>
-                        <InputText class="form-control" @bind-Value="Cliente.RNC" />
-                        <ValidationMessage For="(() => Cliente.RNC)" />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label"><strong>Limite de Credito</strong></label>
-                        <InputNumber class="form-control" @bind-Value="Cliente.LimiteCredito" />
-                        <ValidationMessage For="(() => Cliente.LimiteCredito)" />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label"><strong>Fecha Ingreso</strong></label>
-                        <InputDate class="form-control" @bind-Value="Cliente.FechaIngreso" />
-                        <ValidationMessage For="(() => Cliente.FechaIngreso)" />
-                    </div>
+                @*Nombre*@
+                <div class="col-md-4">
+                    <label class="form-label"><strong>Nombre</strong></label>
+                    <InputText class="form-control" @bind-Value="Cliente.ClienteName" />
+                    <ValidationMessage For="(() => Cliente.ClienteName)" />
                 </div>
 
-                @* Tecnico Encargado*@
-                <div class="row mb-3">
-                    <div class="col-md-12">
-                        <label class="form-label"><strong>Tecnico Encargado</strong></label>
-                        <InputSelect class="form-control" @bind-Value="Cliente.TecnicoEncargadoId">
-                            <option value="">-- Seleccione un tecnico --</option>
-                            @foreach (var tecnico in Tecnicos)
-                            {
-                                <option value="@tecnico.TecnicoId">@tecnico.TecnicoName</option>
-                            }
-                        </InputSelect>
-                        <ValidationMessage For="(() => Cliente.TecnicoEncargadoId)" />
-                    </div>
+                @*Direccion*@
+                <div class="col-md-4">
+                    <label class="form-label"><strong>Direccion</strong></label>
+                    <InputText class="form-control" @bind-Value="Cliente.Direccion" />
+                    <ValidationMessage For="(() => Cliente.Direccion)" />
+                </div>
+
+                @*RNC*@
+                <div class="col-md-4">
+                    <label class="form-label"><strong>RNC</strong></label>
+                    <InputText class="form-control" @bind-Value="Cliente.RNC" />
+                    <ValidationMessage For="(() => Cliente.RNC)" />
+                </div>
+
+                @*LimiteCredito*@
+                <div class="col-md-4">
+                    <label class="form-label"><strong>Limite de Credito</strong></label>
+                    <InputNumber class="form-control" @bind-Value="Cliente.LimiteCredito" />
+                    <ValidationMessage For="(() => Cliente.LimiteCredito)" />
+                </div>
+
+                @*FechaIngreso*@
+                <div class="col-md-4">
+                    <label class="form-label"><strong>Fecha Ingreso</strong></label>
+                    <InputDate class="form-control" @bind-Value="Cliente.FechaIngreso" />
+                    <ValidationMessage For="(() => Cliente.FechaIngreso)" />
+                </div>
+
+                @*Tecnico Encargado*@
+                <div class="col-md-4">
+                    <label class="form-label"><strong>Tecnico Encargado</strong></label>
+                    <InputSelect class="form-control" @bind-Value="Cliente.TecnicoEncargadoId">
+                        <option value="">-- Seleccione un tecnico --</option>
+                        @foreach (var tecnico in Tecnicos)
+                        {
+                            <option value="@tecnico.TecnicoId">@tecnico.TecnicoName</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="(() => Cliente.TecnicoEncargadoId)" />
                 </div>
 
                 @* Footer *@
