@@ -1,5 +1,6 @@
 ﻿@page "/Cliente/Edit/{ClienteId:int}"
 @inject ClientesServices clientesServices
+@inject TecnicosServices tecnicosServices
 @inject NavigationManager navigationManager
 @rendermode InteractiveServer
 
@@ -79,6 +80,19 @@
                     <ValidationMessage For="(() => Cliente.FechaIngreso)" />
                 </div>
 
+                @*Tecnico Encargado*@
+                <div class="col-md-4">
+                    <label class="form-label"><strong>Tecnico Encargado</strong></label>
+                    <InputSelect class="form-control" @bind-Value="Cliente.TecnicoEncargadoId">
+                        <option value="">-- Seleccione un tecnico --</option>
+                        @foreach (var tecnico in Tecnicos)
+                        {
+                            <option value="@tecnico.TecnicoId">@tecnico.TecnicoName</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="(() => Cliente.TecnicoEncargadoId)" />
+                </div>
+
                 @* Footer *@
                 <div class="card-footer text-center mt-2">
                     <div class="btn-group" role="group" aria-label="Acciones unidas">
@@ -103,10 +117,12 @@
     private string Mensaje = "";
 
     private Clientes Cliente { get; set; } = new Clientes();
+    private List<Tecnicos> Tecnicos { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         Cliente = await clientesServices.Buscar(ClienteId) ?? new Clientes();
+        Tecnicos = await tecnicosServices.Listar(t => true);
     }
 
     private async Task Guardar()
