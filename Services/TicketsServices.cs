@@ -7,68 +7,66 @@ namespace RegistrosTenicos.Services
 {
     public class TicketsServices(IDbContextFactory<Contexto> DbFactory)
     {
-
         // Metodo Existe
-        private async Task<bool> Existe(int tecnicoId)
+        private async Task<bool> Existe(int ticketId)
         {
             await using var contexto = await DbFactory.CreateDbContextAsync();
-            return await contexto.Tecnicos
-                .AnyAsync(t => t.TecnicoId == tecnicoId);
+            return await contexto.Tickets
+                .AnyAsync(t => t.TicketId == ticketId);
         }
 
         // Metodo Insertar
-        private async Task<bool> Insertar(Tecnicos tecnicos)
+        private async Task<bool> Insertar(Tickets tickets)
         {
             await using var contexto = await DbFactory.CreateDbContextAsync();
-            contexto.Tecnicos.Add(tecnicos);
+            contexto.Tickets.Add(tickets);
             return await contexto.SaveChangesAsync() > 0;
         }
 
         // Metodo Modificar 
-        private async Task<bool> Modificar(Tecnicos tecnicos)
+        private async Task<bool> Modificar(Tickets tickets)
         {
             await using var contexto = await DbFactory.CreateDbContextAsync();
-            contexto.Update(tecnicos);
+            contexto.Update(tickets);
             return await contexto.SaveChangesAsync() > 0;
         }
 
         // Metodo Guardar
-        public async Task<bool> Guardar(Tecnicos tecnicos)
+        public async Task<bool> Guardar(Tickets tickets)
         {
-            tecnicos.TecnicoId = tecnicos.TecnicoId;
-            if (!await Existe(tecnicos.TecnicoId))
+            if (!await Existe(tickets.TicketId))
             {
-                return await Insertar(tecnicos);
+                return await Insertar(tickets);
             }
             else
             {
-                return await Modificar(tecnicos);
+                return await Modificar(tickets);
             }
         }
 
         // Metodo Buscar
-        public async Task<Tecnicos?> Buscar(int tecnicoId)
+        public async Task<Tickets?> Buscar(int ticketId)
         {
             await using var contexto = await DbFactory.CreateDbContextAsync();
-            return await contexto.Tecnicos
-                .FirstOrDefaultAsync(t => t.TecnicoId == tecnicoId);
+            return await contexto.Tickets
+                .FirstOrDefaultAsync(t => t.TicketId == ticketId);
         }
 
         // Metodo Eliminar
-        public async Task<bool> Eliminar(int tecnicoId)
+        public async Task<bool> Eliminar(int ticketId)
         {
             await using var contexto = await DbFactory.CreateDbContextAsync();
-            return await contexto.Tecnicos
+            return await contexto.Tickets
                 .AsNoTracking()
-                .Where(t => t.TecnicoId == tecnicoId)
+                .Where(t => t.TicketId == ticketId)
                 .ExecuteDeleteAsync() > 0;
         }
 
         // Metodo Listar
-        public async Task<List<Tecnicos>> Listar(Expression<Func<Tecnicos, bool>> criterio)
+        public async Task<List<Tickets>> Listar(Expression<Func<Tickets, bool>> criterio)
         {
             await using var contexto = await DbFactory.CreateDbContextAsync();
-            return await contexto.Tecnicos
+            return await contexto.Tickets
                 .Where(criterio)
                 .AsNoTracking()
                 .ToListAsync();
