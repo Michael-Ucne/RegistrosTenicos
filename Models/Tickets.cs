@@ -22,6 +22,7 @@ namespace RegistrosTenicos.Models
         [Required(ErrorMessage = "Describa el Asunto")]
         public string? Asunto { get; set; }
 
+        [Required(ErrorMessage = "Complete el campo")]
         public string? Descripcion { get; set; }
 
         [Required(ErrorMessage = "Ingrese el Tiempo Invertido")]

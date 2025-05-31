@@ -1,5 +1,157 @@
-﻿<h3>TicketEdit</h3>
+﻿@page "/Ticket/Edit/{TicketId:int}"
+@inject TicketsServices ticketsService
+@inject TecnicosServices tecnicosService
+@inject ClientesServices clientesService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Editar Ticket</PageTitle>
+
+<EditForm Model="Ticket" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header text-center bg-primary text-white">
+                <h5 class="card-title"><strong>Editar Ticket</strong></h5>
+            </div>
+
+            <div class="card-body">
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label"><strong>Ticket ID</strong></label>
+                    <InputNumber class="form-control" @bind-Value="Ticket.TicketId" readonly />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="form-label"><strong>Fecha</strong></label>
+                    <InputDate class="form-control" @bind-Value="Ticket.Fecha" />
+                    <ValidationMessage For="(() => Ticket.Fecha)" />
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label"><strong>Prioridad</strong></label>
+                    <InputSelect class="form-select" @bind-Value="Ticket.Prioridad">
+                        <option value="0" disabled>-- Seleccione prioridad --</option>
+                        @for (int i = 1; i <= prioridades.Count; i++)
+                        {
+                            <option value="@i">@prioridades[i - 1]</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="(() => Ticket.Prioridad)" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><strong>Cliente</strong></label>
+                    <InputSelect class="form-select" @bind-Value="Ticket.ClienteId">
+                        <option value="0" disabled>-- Seleccione un cliente --</option>
+                        @foreach (var cliente in Clientes)
+                        {
+                            <option value="@cliente.ClienteId">@cliente.ClienteName</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="(() => Ticket.ClienteId)" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><strong>Tecnico</strong></label>
+                    <InputSelect class="form-select" @bind-Value="Ticket.TecnicoId">
+                        <option value="0" disabled>-- Seleccione un tecnico --</option>
+                        @foreach (var tecnico in Tecnicos)
+                        {
+                            <option value="@tecnico.TecnicoId">@tecnico.TecnicoName</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="(() => Ticket.TecnicoId)" />
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label class="form-label"><strong>Asunto</strong></label>
+                    <InputText class="form-control" @bind-Value="Ticket.Asunto" />
+                    <ValidationMessage For="(() => Ticket.Asunto)" />
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label class="form-label"><strong>Descripcion</strong></label>
+                    <InputTextArea class="form-control" @bind-Value="Ticket.Descripcion" />
+                    <ValidationMessage For="(() => Ticket.Descripcion)" />
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label"><strong>Tiempo Invertido (horas)</strong></label>
+                    <InputNumber class="form-control" @bind-Value="Ticket.TiempoInvertido" />
+                    <ValidationMessage For="(() => Ticket.TiempoInvertido)" />
+                </div>
+
+                <div class="card-footer text-center mt-2">
+                    <div class="btn-group" role="group">
+                        <a href="@AppRoutes.TIDelete/@TicketId" class="btn btn-outline-primary bi bi-trash"> Eliminar</a>
+                        <button type="submit" class="btn btn-outline-success bi bi-floppy"> Guardar</button>
+                        <a href="@AppRoutes.TIIndex" class="btn btn-outline-secondary">
+                            <span class="bi bi-arrow-left"></span> Volver
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</EditForm>
 
 @code {
+    [Parameter]
+    public int TicketId { get; set; }
 
+    private Tickets Ticket { get; set; } = new Tickets();
+    private List<Tecnicos> Tecnicos { get; set; } = new();
+    private List<Clientes> Clientes { get; set; } = new();
+
+    private List<string> prioridades = new() { "Baja", "Media", "Alta", "Urgente" };
+    private string Mensaje = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Ticket = await ticketsService.Buscar(TicketId) ?? new Tickets();
+        Tecnicos = await tecnicosService.Listar(t => true);
+        Clientes = await clientesService.Listar(c => true);
+    }
+
+    private async Task Guardar()
+    {
+        Ticket.Fecha = DateTime.SpecifyKind(Ticket.Fecha, DateTimeKind.Utc);
+
+        if (Ticket.Fecha > DateTime.Today)
+        {
+            Mensaje = "La fecha no puede ser mayor a la actual.";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(Ticket.Asunto))
+        {
+            Mensaje = "Debe ingresar un asunto.";
+            return;
+        }
+
+        if (Ticket.Prioridad < 1 || Ticket.Prioridad > prioridades.Count)
+        {
+            Mensaje = "Debe seleccionar una prioridad valida.";
+            return;
+        }
+
+        if (Ticket.ClienteId == 0)
+        {
+            Mensaje = "Debe seleccionar un cliente.";
+            return;
+        }
+
+        if (Ticket.TecnicoId == 0)
+        {
+            Mensaje = "Debe seleccionar un tecnico.";
+            return;
+        }
+
+        await ticketsService.Guardar(Ticket);
+        navigationManager.NavigateTo(AppRoutes.TIIndex);
+    }
 }
