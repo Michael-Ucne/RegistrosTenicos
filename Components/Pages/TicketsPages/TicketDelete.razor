@@ -1,5 +1,77 @@
-﻿<h3>TicketDelete</h3>
+﻿@page "/Ticket/Delete/{TicketId:int}"
+@inject TicketsServices ticketsService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Eliminar Ticket</PageTitle>
+
+<EditForm Model="Ticket" OnValidSubmit="Eliminar">
+    <div class="card shadow-lg">
+        <div class="card-header text-center bg-primary text-white">
+            <h5 class="card-title">
+                <strong>Eliminar Ticket</strong>
+            </h5>
+        </div>
+
+        <div class="card-subtitle text-center bg-danger text-white">
+            <h5 class="card-title">Esta seguro de querer eliminar este ticket?</h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="mb-3">
+                <label class="form-label">
+                    <strong>Ticket ID: </strong> @TicketId
+                </label>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">
+                    <strong>Asunto: </strong> @Ticket?.Asunto
+                </label>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">
+                    <strong>Fecha: </strong> @Ticket?.Fecha.ToShortDateString()
+                </label>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">
+                    <strong>Prioridad: </strong> @prioridades.ElementAtOrDefault((Ticket?.Prioridad ?? 1) - 1)
+                </label>
+            </div>
+
+            <div class="card-footer text-center mt-2">
+                <div class="btn-group" role="group" aria-label="Acciones unidas">
+                    <button type="submit" class="btn btn-outline-danger bi bi-trash"> Eliminar</button>
+                    <a href="@AppRoutes.TEdit/@Ticket?.TicketId" class="btn btn-outline-secondary">
+                        <span class="bi bi-arrow-left"></span> Volver
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</EditForm>
 
 @code {
+    [Parameter]
+    public int TicketId { get; set; }
 
+    private Tickets? Ticket { get; set; } = new Tickets();
+
+    private List<string> prioridades = new() { "Baja", "Media", "Alta", "Urgente" };
+
+    protected override async Task OnInitializedAsync()
+    {
+        Ticket = await ticketsService.Buscar(TicketId);
+    }
+
+    private async Task Eliminar()
+    {
+        await ticketsService.Eliminar(TicketId);
+        navigationManager.NavigateTo(AppRoutes.TIndex);
+    }
 }
