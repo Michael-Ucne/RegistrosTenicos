@@ -1,5 +1,6 @@
 ﻿@page "/Cliente"
 @inject ClientesServices clientesServices
+@inject TecnicosServices tecnicosServices
 @inject NavigationManager navigationManager
 @rendermode InteractiveServer
 
@@ -56,7 +57,7 @@
                     <tr>
                         <th>Cliente ID</th>
                         <th>Fecha de Ingreso</th>
-                        <th>ClienteNames</th>
+                        <th>Clientes</th>
                         <th>Direccion</th>
                         <th>RNC</th>
                         <th>Limite de Credito</th>
@@ -69,13 +70,12 @@
                     {
                         <tr>
                             <td>@cliente.ClienteId</td>
-                            <td>@cliente.ClienteName</td>
                             <td>@cliente.FechaIngreso.ToString("yyyy-MM-dd")</td>
+                            <td>@cliente.ClienteName</td>
                             <td>@cliente.Direccion</td>
                             <td>@cliente.RNC</td>
                             <td>@cliente.LimiteCredito.ToString("N2")</td>
-                            <td>@cliente.TecnicoEncargadoId</td>
-
+                            <td>@Tecnicos.Find(t => t.TecnicoId == cliente.TecnicoEncargadoId)?.TecnicoName</td>
                             <td>
                                 <a href="@AppRoutes.CEdit/@cliente.ClienteId" class="btn btn-outline-success btn-sm">
                                     <i class="bi bi-pencil-square"></i>
@@ -91,6 +91,7 @@
 
 @code {
 
+    List<Tecnicos> Tecnicos { get; set; } = new List<Tecnicos>();
     List<Clientes> clientes { get; set; } = new List<Clientes>();
     public string Filtro { get; set; } = string.Empty;
     public string ValorFiltro { get; set; } = string.Empty;
@@ -98,6 +99,7 @@
     protected override async Task OnInitializedAsync()
     {
         clientes = await clientesServices.Listar(c => c != null);
+        Tecnicos = (await tecnicosServices.Listar(t => true)).ToList();
     }
 
     private async Task Buscar()

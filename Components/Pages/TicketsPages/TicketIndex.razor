@@ -64,15 +64,21 @@
                     {
                         <tr>
                             <td>@ticket.TicketId</td>
-                            <td>@ticket.Fecha</td>
+
+                            <td>@ticket.Fecha.ToString("dd/MM/yyyy")</td>
+
                             <td>@prioridades[ticket.Prioridad - 1]</td>
+
                             <td>@Clientes.Find(c => c.ClienteId == ticket.ClienteId)?.ClienteName</td>
-                            <td>@Tecnicos.Find(t => t.TecnicoId == ticket.TecnicoId)?.TecnicoName</td>
+
                             <td>@ticket.Asunto</td>
+
                             <td>@ticket.Descripcion</td>
+
                             <td>@ticket.TiempoInvertido</td>
 
-                            @*BTN Editar*@
+                            <td>@Tecnicos.Find(t => t.TecnicoId == ticket.TecnicoId)?.TecnicoName</td>
+
                             <td class="text-center">
                                 <a href="@AppRoutes.TIEdit/@ticket.TicketId" class="btn btn-outline-primary bi bi-pencil-square"></a>
                             </td>
