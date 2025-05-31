@@ -46,7 +46,7 @@
             <div class="card-footer text-center mt-2">
                 <div class="btn-group" role="group" aria-label="Acciones unidas">
                     <button type="submit" class="btn btn-outline-danger bi bi-trash"> Eliminar</button>
-                    <a href="@AppRoutes.TEdit/@Ticket?.TicketId" class="btn btn-outline-secondary">
+                    <a href="@AppRoutes.TIEdit/@Ticket?.TicketId" class="btn btn-outline-secondary">
                         <span class="bi bi-arrow-left"></span> Volver
                     </a>
                 </div>
@@ -72,6 +72,6 @@
     private async Task Eliminar()
     {
         await ticketsService.Eliminar(TicketId);
-        navigationManager.NavigateTo(AppRoutes.TIndex);
+        navigationManager.NavigateTo(AppRoutes.TIIndex);
     }
 }
