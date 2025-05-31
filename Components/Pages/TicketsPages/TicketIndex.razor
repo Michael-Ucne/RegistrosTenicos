@@ -23,25 +23,35 @@
                 </a>
             </div>
 
-            @* Filtros *@
-            <div class="row">
-                <div class="col-3">
-                    <label class="col-form-label"><strong>Filtrar por</strong></label>
-                    <InputSelect class="form-select" @bind-Value="Filtro">
-                        <option value="" disabled selected>Elija una opcion</option>
+            @* Filtros en una sola fila *@
+            <div class="row align-items-end g-2">
+                <div class="col-md-2">
+                    <label class="form-label"><strong>Fecha Desde</strong></label>
+                    <InputDate @bind-Value="FechaDesde" class="form-control form-control-sm" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label"><strong>Fecha Hasta</strong></label>
+                    <InputDate @bind-Value="FechaHasta" class="form-control form-control-sm" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label"><strong>Filtrar por</strong></label>
+                    <InputSelect class="form-select form-select-sm" @bind-Value="Filtro">
+                        <option value="">Elija una opción</option>
                         <option value="Prioridad">Prioridad</option>
                         <option value="Cliente">Nombre Cliente</option>
-                        <option value="Tecnico">Nombre Tecnico</option>
+                        <option value="Tecnico">Nombre Técnico</option>
                         <option value="Asunto">Asunto</option>
-                        <option value="Descripcion">Descripcion</option>
+                        <option value="Descripcion">Descripción</option>
                     </InputSelect>
                 </div>
-                <div class="col-3">
-                    <label class="col-form-label"><strong>Busqueda</strong></label>
-                    <div class="input-group">
-                        <input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
-                        <button type="button" class="btn btn-outline-primary bi bi-search" @onclick="Buscar">Buscar</button>
-                    </div>
+                <div class="col-md-3">
+                    <label class="form-label"><strong>Búsqueda</strong></label>
+                    <input class="form-control form-control-sm" @bind="ValorFiltro" placeholder="Buscar..." />
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-outline-primary w-100 bi bi-search" @onclick="Buscar">
+                        Buscar
+                    </button>
                 </div>
             </div>
 
@@ -53,9 +63,9 @@
                         <th>Prioridad</th>
                         <th>Cliente</th>
                         <th>Asunto</th>
-                        <th>Descripcion</th>
+                        <th>Descripción</th>
                         <th>Tiempo Invertido</th>
-                        <th>Tecnico</th>
+                        <th>Técnico</th>
                         <th>Editar</th>
                     </tr>
                 </thead>
@@ -64,21 +74,13 @@
                     {
                         <tr>
                             <td>@ticket.TicketId</td>
-
                             <td>@ticket.Fecha.ToString("dd/MM/yyyy")</td>
-
                             <td>@prioridades[ticket.Prioridad - 1]</td>
-
                             <td>@Clientes.Find(c => c.ClienteId == ticket.ClienteId)?.ClienteName</td>
-
                             <td>@ticket.Asunto</td>
-
                             <td>@ticket.Descripcion</td>
-
                             <td>@ticket.TiempoInvertido</td>
-
                             <td>@Tecnicos.Find(t => t.TecnicoId == ticket.TecnicoId)?.TecnicoName</td>
-
                             <td class="text-center">
                                 <a href="@AppRoutes.TIEdit/@ticket.TicketId" class="btn btn-outline-primary bi bi-pencil-square"></a>
                             </td>
@@ -93,12 +95,14 @@
 @code {
     public string Filtro { get; set; } = string.Empty;
     public string ValorFiltro { get; set; } = string.Empty;
+    public DateTime? FechaDesde { get; set; }
+    public DateTime? FechaHasta { get; set; }
 
     public List<Tickets> Tickets { get; set; } = new List<Tickets>();
     public List<Tecnicos> Tecnicos { get; set; } = new List<Tecnicos>();
     public List<Clientes> Clientes { get; set; } = new List<Clientes>();
 
-    public List<string> prioridades = new List<string> { "Baja", "Media", "Alta"};
+    public List<string> prioridades = new List<string> { "Baja", "Media", "Alta" };
 
     protected override async Task OnInitializedAsync()
     {
@@ -109,21 +113,41 @@
 
     public async Task Buscar()
     {
-        if (Filtro == "Id")
+        Expression<Func<Tickets, bool>> filtroExp = t => t.TicketId > 0;
+
+        if (!string.IsNullOrWhiteSpace(ValorFiltro))
         {
-            Tickets = await ticketsService.Listar(t => t.TicketId.ToString().Contains(ValorFiltro));
+            if (Filtro == "Asunto")
+                filtroExp = t => t.Asunto.Contains(ValorFiltro);
+            else if (Filtro == "Descripcion")
+                filtroExp = t => t.Descripcion.Contains(ValorFiltro);
+            else if (Filtro == "Cliente")
+            {
+                var cliente = Clientes.FirstOrDefault(c => c.ClienteName == ValorFiltro);
+                if (cliente != null)
+                    filtroExp = t => t.ClienteId == cliente.ClienteId;
+            }
+            else if (Filtro == "Tecnico")
+            {
+                var tecnico = Tecnicos.FirstOrDefault(c => c.TecnicoName == ValorFiltro);
+                if (tecnico != null)
+                    filtroExp = t => t.TecnicoId == tecnico.TecnicoId;
+            }
+            else if (Filtro == "Prioridad")
+            {
+                var index = prioridades.FindIndex(p => p == ValorFiltro);
+                if (index >= 0)
+                    filtroExp = t => t.Prioridad == index + 1;
+            }
         }
-        else if (Filtro == "Asunto")
-        {
-            Tickets = await ticketsService.Listar(t => t.Asunto.Contains(ValorFiltro));
-        }
-        else if (Filtro == "Cliente")
-        {
-            Tickets = await ticketsService.Listar(t => Clientes.Find(c => c.ClienteName == ValorFiltro).ClienteId == t.ClienteId);
-        }
-        else if (Filtro == "Tecnico")
-        {
-            Tickets = await ticketsService.Listar(t => Tecnicos.Find(c => c.TecnicoName == ValorFiltro).TecnicoId == t.TecnicoId);
-        }
+
+        var lista = await ticketsService.Listar(filtroExp);
+
+        if (FechaDesde.HasValue)
+            lista = lista.Where(t => t.Fecha >= FechaDesde.Value).ToList();
+        if (FechaHasta.HasValue)
+            lista = lista.Where(t => t.Fecha <= FechaHasta.Value).ToList();
+
+        Tickets = lista;
     }
 }
