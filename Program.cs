@@ -1,3 +1,4 @@
+using Blazored.Toast;
 using Microsoft.EntityFrameworkCore;
 using RegistrosTenicos.Components;
 using RegistrosTenicos.DAL;
@@ -19,6 +20,7 @@ builder.Services.AddDbContextFactory<Contexto>(o => o.UseNpgsql(ConStr));
 // Inyeccion del service
 builder.Services.AddScoped<TecnicosServices>();
 builder.Services.AddScoped<ClientesServices>();
+builder.Services.AddBlazoredToast();
 
 var app = builder.Build();
 
