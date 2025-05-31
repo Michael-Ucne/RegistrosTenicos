@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RegistrosTenicos.DAL;
@@ -11,9 +12,11 @@ using RegistrosTenicos.DAL;
 namespace RegistrosTenicos.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20250531202115_Tabla en tickets")]
+    partial class Tablaentickets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,41 +77,6 @@ namespace RegistrosTenicos.Migrations
                     b.HasKey("TecnicoId");
 
                     b.ToTable("Tecnicos");
-                });
-
-            modelBuilder.Entity("RegistrosTenicos.Models.Tickets", b =>
-                {
-                    b.Property<int>("TicketId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TicketId"));
-
-                    b.Property<string>("Asunto")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("Fecha")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Prioridad")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TecnicoId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TiempoInvertido")
-                        .HasColumnType("integer");
-
-                    b.HasKey("TicketId");
-
-                    b.ToTable("Tickets");
                 });
 #pragma warning restore 612, 618
         }

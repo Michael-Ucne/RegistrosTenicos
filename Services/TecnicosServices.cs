@@ -8,7 +8,6 @@ namespace RegistrosTenicos.Services
     public class TecnicosServices(IDbContextFactory<Contexto> DbFactory)
     {
 
-        // Metodo Existe
         private async Task<bool> Existe(int tecnicoId)
         {
             await using var contexto = await DbFactory.CreateDbContextAsync();
@@ -16,7 +15,6 @@ namespace RegistrosTenicos.Services
                 .AnyAsync(t => t.TecnicoId == tecnicoId);
         }
 
-        // Metodo Insertar
         private async Task<bool> Insertar(Tecnicos tecnicos)
         {
             await using var contexto = await DbFactory.CreateDbContextAsync();
@@ -24,7 +22,6 @@ namespace RegistrosTenicos.Services
             return await contexto.SaveChangesAsync() > 0;
         }
 
-        // Metodo Modificar 
         private async Task<bool> Modificar(Tecnicos tecnicos)
         {
             await using var contexto = await DbFactory.CreateDbContextAsync();
@@ -32,7 +29,6 @@ namespace RegistrosTenicos.Services
             return await contexto.SaveChangesAsync() > 0;
         }
 
-        // Metodo Guardar
         public async Task<bool> Guardar(Tecnicos tecnicos)
         {
             tecnicos.TecnicoId = tecnicos.TecnicoId;
@@ -46,7 +42,6 @@ namespace RegistrosTenicos.Services
             }
         }
 
-        // Metodo Buscar
         public async Task<Tecnicos?> Buscar(int tecnicoId)
         {
             await using var contexto = await DbFactory.CreateDbContextAsync();
@@ -54,7 +49,6 @@ namespace RegistrosTenicos.Services
                 .FirstOrDefaultAsync(t => t.TecnicoId == tecnicoId);
         }
 
-        // Metodo Eliminar
         public async Task<bool> Eliminar(int tecnicoId)
         {
             await using var contexto = await DbFactory.CreateDbContextAsync();
@@ -64,7 +58,6 @@ namespace RegistrosTenicos.Services
                 .ExecuteDeleteAsync() > 0;
         }
 
-        // Metodo Listar
         public async Task<List<Tecnicos>> Listar(Expression<Func<Tecnicos, bool>> criterio)
         {
             await using var contexto = await DbFactory.CreateDbContextAsync();

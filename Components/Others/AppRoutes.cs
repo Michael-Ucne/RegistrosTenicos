@@ -14,5 +14,11 @@
         public static string CEdit => "/Cliente/Edit";
         public static string CDelete => "/Cliente/Delete";
 
+        // Routers de Tickets
+        public static string TIIndex => "/Ticket";
+        public static string TICreate => "/Ticket/Create";
+        public static string TIEdit => "/Ticket/Edit";
+        public static string TIDelete => "/Ticket/Delete";
+
     }
 }
