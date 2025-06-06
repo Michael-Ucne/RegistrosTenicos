@@ -20,5 +20,12 @@
         public static string TIEdit => "/Ticket/Edit";
         public static string TIDelete => "/Ticket/Delete";
 
+
+        // Routers de Sistemas
+        public static string SIndex => "/Sistema";
+        public static string SCreate => "/Sistema/Create";
+        public static string SEdit => "/Sistema/Edit";
+        public static string SDelete => "/Sistema/Delete";
+
     }
 }
