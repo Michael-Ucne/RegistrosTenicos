@@ -3,58 +3,48 @@
 @inject NavigationManager navigationManager
 @rendermode InteractiveServer
 
-@*HTML*@
-<PageTitle>Crear Tecnico</PageTitle>
+<PageTitle>Editar T&eacute;cnico</PageTitle>
 <EditForm Model="Tecnico" OnValidSubmit="Guardar">
-    <DataAnnotationsValidator/>
+    <DataAnnotationsValidator />
 
     <div class="container">
         <div class="card shadow-lg">
             <div class="card-header text-center bg-primary text-white">
                 <h5 class="card-title">
-                    <strong>
-                        Editar Tecnico
-                    </strong>
+                    <strong>Editar Técnico</strong>
                 </h5>
             </div>
 
             <div class="card-body">
-                @*TecnicoId*@
+                @* TecnicoId *@
                 <div class="mb-3">
-                    <label class="form-label">
-                        <strong>Tecnico ID</strong>
-                    </label>
-                    <InputNumber class="form-control" @bind-Value="Tecnico.TecnicoId" readonly/>
+                    <label class="form-label"><strong>Técnico ID</strong></label>
+                    <InputNumber class="form-control" @bind-Value="Tecnico.TecnicoId" readonly />
                 </div>
 
-                @*Nombres*@
+                @* Mensaje de error *@
+                @if (!string.IsNullOrEmpty(Mensaje))
+                {
+                    <div class="alert alert-warning">
+                        <strong>@Mensaje</strong>
+                    </div>
+                }
+
+                @* Nombres *@
                 <div class="mb-3">
-                    <label class="alert-warning">
-                        <strong>
-                            @Mensaje
-                        </strong>
-                    </label>
-                    <label class="form-label">
-                        <strong>
-                            Nombres
-                        </strong>
-                    </label>
-                    <InputText class="form-control" @bind-Value="Tecnico.TecnicoName"/>
-                    <ValidationMessage For="(() => Tecnico.TecnicoName)"/>
+                    <label class="form-label"><strong>Nombres</strong></label>
+                    <InputText class="form-control" @bind-Value="Tecnico.TecnicoName" />
+                    <ValidationMessage For="(() => Tecnico.TecnicoName)" />
                 </div>
 
-                @*SueldoHora*@
+                @* Sueldo por Hora *@
                 <div class="mb-3">
-                    <label class="form-label">
-                        <strong>
-                            SueldoHora
-                        </strong>
-                    </label>
-                    <InputNumber class="form-control" @bind-Value="Tecnico.SueldoHora"/>
-                    <ValidationMessage For="(() => Tecnico.SueldoHora)"/>
+                    <label class="form-label"><strong>Sueldo por Hora</strong></label>
+                    <InputNumber class="form-control" @bind-Value="Tecnico.SueldoHora" />
+                    <ValidationMessage For="(() => Tecnico.SueldoHora)" />
                 </div>
 
-                @*Footer*@
+                @* Footer *@
                 <div class="card-footer text-center mt-2">
                     <div class="btn-group" role="group" aria-label="Acciones unidas">
                         <a href="@AppRoutes.TDelete/@TecnicoId" class="btn btn-outline-primary bi bi-trash"> Eliminar</a>
@@ -70,7 +60,6 @@
 </EditForm>
 
 @code {
-
     [Parameter] public int TecnicoId { get; set; }
 
     private string Mensaje = "";
@@ -84,13 +73,22 @@
 
     public async Task Guardar()
     {
-        List<Tecnicos> tecnicos = await tecnicosServices.Listar(t => t.TecnicoName == Tecnico.TecnicoName);
-        if (tecnicos.Count == 1 && (tecnicos[0].TecnicoId != Tecnico?.TecnicoId))
+        if (string.IsNullOrWhiteSpace(Tecnico.TecnicoName))
         {
-            Mensaje = "Ya existe un Tenico con ese nombre";
+            Mensaje = "El nombre del técnico es obligatorio.";
             return;
         }
+
+        List<Tecnicos> tecnicos = await tecnicosServices.Listar(t => t.TecnicoName == Tecnico.TecnicoName);
+
+        if (tecnicos.Count == 1 && (tecnicos[0].TecnicoId != Tecnico?.TecnicoId))
+        {
+            Mensaje = "Ya existe un técnico con ese nombre.";
+            return;
+        }
+
+        Mensaje = "";
         await tecnicosServices.Guardar(Tecnico);
-        navigationManager.NavigateTo(uri: AppRoutes.TIndex);
+        navigationManager.NavigateTo(AppRoutes.TIndex);
     }
 }

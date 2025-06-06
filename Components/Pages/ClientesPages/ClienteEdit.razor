@@ -46,10 +46,10 @@
                     <ValidationMessage For="(() => Cliente.ClienteName)" />
                 </div>
 
-                @*Direccion*@
+                @*Direcci&oacute;n*@
                 <div class="col-md-4">
                     <label class="form-label">
-                        <strong>Direccion</strong>
+                        <strong>Direcci&oacute;n</strong>
                     </label>
                     <InputText class="form-control" @bind-Value="Cliente.Direccion" />
                     <ValidationMessage For="(() => Cliente.Direccion)" />
@@ -64,20 +64,20 @@
                     <ValidationMessage For="(() => Cliente.RNC)" />
                 </div>
 
-                @*LimiteCredito*@
+                @*L&iacute;mite de Cr&eacute;dito*@
                 <div class="col-md-4">
                     <label class="form-label">
-                        <strong>Limite de Credito</strong>
+                        <strong>L&iacute;mite de Cr&eacute;dito</strong>
                     </label>
                     <InputNumber class="form-control" @bind-Value="Cliente.LimiteCredito" />
                     <ValidationMessage For="(() => Cliente.LimiteCredito)" />
                 </div>
 
-                @*Tecnico Encargado*@
+                @*T&eacute;cnico Encargado*@
                 <div class="col-md-4">
-                    <label class="form-label"><strong>Tecnico Encargado</strong></label>
+                    <label class="form-label"><strong>T&eacute;cnico Encargado</strong></label>
                     <InputSelect class="form-control" @bind-Value="Cliente.TecnicoEncargadoId">
-                        <option value="">-- Seleccione un tecnico --</option>
+                        <option value="">-- Seleccione un t&eacute;cnico --</option>
                         @foreach (var tecnico in Tecnicos)
                         {
                             <option value="@tecnico.TecnicoId">@tecnico.TecnicoName</option>
@@ -104,7 +104,7 @@
 
 @code {
 
-    [Parameter] 
+    [Parameter]
     public int ClienteId { get; set; }
 
     private string Mensaje = "";

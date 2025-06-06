@@ -55,9 +55,9 @@
                 </div>
 
                 <div class="col-md-6 mb-3">
-                    <label class="form-label"><strong>Tecnico</strong></label>
+                    <label class="form-label"><strong>T&eacute;cnico</strong></label>
                     <InputSelect class="form-select" @bind-Value="Ticket.TecnicoId">
-                        <option value="0" disabled>-- Seleccione un tecnico --</option>
+                        <option value="0" disabled>-- Seleccione un t&eacute;cnico --</option>
                         @foreach (var tecnico in Tecnicos)
                         {
                             <option value="@tecnico.TecnicoId">@tecnico.TecnicoName</option>
@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="col-md-12 mb-3">
-                    <label class="form-label"><strong>Descripcion</strong></label>
+                    <label class="form-label"><strong>Descripci&oacute;n</strong></label>
                     <InputTextArea class="form-control" @bind-Value="Ticket.Descripcion" />
                     <ValidationMessage For="(() => Ticket.Descripcion)" />
                 </div>
@@ -107,7 +107,7 @@
     private List<Tecnicos> Tecnicos { get; set; } = new();
     private List<Clientes> Clientes { get; set; } = new();
 
-    private List<string> prioridades = new() { "Baja", "Media", "Alta"};
+    private List<string> prioridades = new() { "Baja", "Media", "Alta" };
     private string Mensaje = "";
 
     protected override async Task OnInitializedAsync()
@@ -147,7 +147,7 @@
 
         if (Ticket.TecnicoId == 0)
         {
-            Mensaje = "Debe seleccionar un tecnico.";
+            Mensaje = "Debe seleccionar un t&eacute;cnico.";
             return;
         }
 

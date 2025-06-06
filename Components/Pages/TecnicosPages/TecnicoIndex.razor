@@ -3,13 +3,13 @@
 @inject NavigationManager navigationManager
 @rendermode InteractiveServer
 
-<PageTitle>Lista de Tecnicos</PageTitle>
+<PageTitle>Lista de T&eacute;cnicos</PageTitle>
 <div class="container">
     <div class="card shadow-lg">
         <div class="card-header text-center bg-primary text-white">
             <h5 class="card-title text-center">
                 <strong>
-                    Consulta de Tecnicos
+                    Consulta de T&eacute;cnicos
                 </strong>
             </h5>
         </div>
@@ -29,7 +29,7 @@
                         <strong>Filtrar por</strong>
                     </label>
                     <InputSelect class="form-select" @bind-Value="Filtro">
-                        <option value="" selected disabled>Elija una opcion</option>
+                        <option value="" selected disabled>Elija una opci&oacute;n</option>
                         <option value="Id">Id</option>
                         <option value="Nombres">Nombres</option>
                         <option value="SueldoHora">Sueldo por Hora</option>
@@ -38,7 +38,7 @@
                 @*ValorFiltro*@
                 <div class="col-4">
                     <label class="col-form-label">
-                        <strong>Busqueda</strong>
+                        <strong>B&uacute;squeda</strong>
                     </label>
                     <div class="input-group">
                         <input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
@@ -50,7 +50,7 @@
             <table class="table table-striped table-hover table-bordered mt-4">
                 <thead class="table text-black">
                     <tr>
-                        <th>Tecnico ID</th>
+                        <th>T&eacute;cnico ID</th>
                         <th>Nombres</th>
                         <th>Sueldo por Hora</th>
                         <th>Editar</th>
@@ -71,7 +71,7 @@
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                             </td>
-                        </tr>                        
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -92,7 +92,7 @@
 
     private async Task Buscar()
     {
-        if(Filtro == "Id")
+        if (Filtro == "Id")
         {
             tecnicos = await tecnicosServices.Listar((t) => t.TecnicoId.ToString().Contains(ValorFiltro));
         }
@@ -100,7 +100,7 @@
         {
             tecnicos = await tecnicosServices.Listar((t) => t.TecnicoName.ToString().Contains(ValorFiltro));
         }
-        else if(Filtro == "SueldoHora")
+        else if (Filtro == "SueldoHora")
         {
             tecnicos = await tecnicosServices.Listar((t) => t.SueldoHora.ToString().Contains(ValorFiltro));
         }

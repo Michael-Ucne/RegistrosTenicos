@@ -4,16 +4,16 @@
 @rendermode InteractiveServer
 
 @*HTML*@
-<PageTitle>Create</PageTitle>
+<PageTitle>Crear T&eacute;cnico</PageTitle>
 <EditForm Model="Tecnico" OnValidSubmit="Guardar">
-    <DataAnnotationsValidator/>
+    <DataAnnotationsValidator />
 
     <div class="container">
         <div class="card shadow-lg">
             <div class="card-header text-center bg-primary text-white">
                 <h5 class="card-title">
                     <strong>
-                        Registrar Tecnico
+                        Registrar T&eacute;cnico
                     </strong>
                 </h5>
             </div>
@@ -23,8 +23,8 @@
                 @*TecnicoId*@
                 <div class="mb-3">
                     <label class="form-label">
-                        <strong>Tecnico ID</strong>
-                        <input class="form-control" @bind="Tecnico.TecnicoId" readonly>                      
+                        <strong>T&eacute;cnico ID</strong>
+                        <input class="form-control" @bind="Tecnico.TecnicoId" readonly />
                     </label>
                 </div>
 
@@ -32,17 +32,17 @@
                 <div class="mb-3">
                     <label class="form-label">
                         <strong>Nombres</strong>
-                        <InputText class="form-control" @bind-Value="Tecnico.TecnicoName"></InputText>
-                        <ValidationMessage For="(() => Tecnico.TecnicoName)"/>
+                        <InputText class="form-control" @bind-Value="Tecnico.TecnicoName" />
+                        <ValidationMessage For="(() => Tecnico.TecnicoName)" />
                     </label>
                 </div>
 
                 @*SueldoHora*@
                 <div class="mb-3">
                     <label class="form-label">
-                        <strong>SueldoHora</strong>
-                        <InputNumber class="form-control" @bind-Value="Tecnico.SueldoHora"></InputNumber>
-                        <ValidationMessage For="(() => Tecnico.SueldoHora)"/>
+                        <strong>Sueldo por hora</strong>
+                        <InputNumber class="form-control" @bind-Value="Tecnico.SueldoHora" />
+                        <ValidationMessage For="(() => Tecnico.SueldoHora)" />
                     </label>
                 </div>
 
@@ -70,9 +70,9 @@
     private async Task Guardar()
     {
         List<Tecnicos> tecnicos = await tecnicosServices.Listar(t => t.TecnicoName == Tecnico.TecnicoName);
-        if(tecnicos.Count == 1 && (tecnicos[0].TecnicoId != Tecnico.TecnicoId))
+        if (tecnicos.Count == 1 && (tecnicos[0].TecnicoId != Tecnico.TecnicoId))
         {
-            Mensaje = "Ya existe un Tenico con ese nombre";
+            Mensaje = "Ya existe un T&eacute;cnico con ese nombre";
             return;
         }
         await tecnicosServices.Guardar(Tecnico);

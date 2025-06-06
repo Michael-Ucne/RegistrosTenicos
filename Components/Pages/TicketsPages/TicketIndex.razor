@@ -36,16 +36,16 @@
                 <div class="col-md-2">
                     <label class="form-label"><strong>Filtrar por</strong></label>
                     <InputSelect class="form-select form-select-sm" @bind-Value="Filtro">
-                        <option value="">Elija una opción</option>
+                        <option value="">Elija una opci&oacute;n</option>
                         <option value="Prioridad">Prioridad</option>
                         <option value="Cliente">Nombre Cliente</option>
-                        <option value="Tecnico">Nombre Técnico</option>
+                        <option value="Tecnico">Nombre T&eacute;cnico</option>
                         <option value="Asunto">Asunto</option>
-                        <option value="Descripcion">Descripción</option>
+                        <option value="Descripcion">Descripci&oacute;n</option>
                     </InputSelect>
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label"><strong>Búsqueda</strong></label>
+                    <label class="form-label"><strong>B&uacute;squeda</strong></label>
                     <input class="form-control form-control-sm" @bind="ValorFiltro" placeholder="Buscar..." />
                 </div>
                 <div class="col-md-2">
@@ -63,9 +63,9 @@
                         <th>Prioridad</th>
                         <th>Cliente</th>
                         <th>Asunto</th>
-                        <th>Descripción</th>
+                        <th>Descripci&oacute;n</th>
                         <th>Tiempo Invertido</th>
-                        <th>Técnico</th>
+                        <th>T&eacute;cnico</th>
                         <th>Editar</th>
                     </tr>
                 </thead>
@@ -118,9 +118,9 @@
         if (!string.IsNullOrWhiteSpace(ValorFiltro))
         {
             if (Filtro == "Asunto")
-                filtroExp = t => t.Asunto.Contains(ValorFiltro);
+                filtroExp = t => t.Asunto != null && t.Asunto.Contains(ValorFiltro);
             else if (Filtro == "Descripcion")
-                filtroExp = t => t.Descripcion.Contains(ValorFiltro);
+                filtroExp = t => t.Descripcion !=null && t.Descripcion.Contains(ValorFiltro);
             else if (Filtro == "Cliente")
             {
                 var cliente = Clientes.FirstOrDefault(c => c.ClienteName == ValorFiltro);

@@ -37,9 +37,9 @@
                     <ValidationMessage For="(() => Cliente.ClienteName)" />
                 </div>
 
-                @*Direccion*@
+                @*Dirección*@
                 <div class="col-md-4">
-                    <label class="form-label"><strong>Direccion</strong></label>
+                    <label class="form-label"><strong>Dirección</strong></label>
                     <InputText class="form-control" @bind-Value="Cliente.Direccion" />
                     <ValidationMessage For="(() => Cliente.Direccion)" />
                 </div>
@@ -51,18 +51,18 @@
                     <ValidationMessage For="(() => Cliente.RNC)" />
                 </div>
 
-                @*LimiteCredito*@
+                @*Límite de Crédito*@
                 <div class="col-md-4">
-                    <label class="form-label"><strong>Limite de Credito</strong></label>
+                    <label class="form-label"><strong>Límite de Crédito</strong></label>
                     <InputNumber class="form-control" @bind-Value="Cliente.LimiteCredito" />
                     <ValidationMessage For="(() => Cliente.LimiteCredito)" />
                 </div>
 
-                @*Tecnico Encargado*@
+                @*Técnico Encargado*@
                 <div class="col-md-4">
-                    <label class="form-label"><strong>Tecnico Encargado</strong></label>
+                    <label class="form-label"><strong>Técnico Encargado</strong></label>
                     <InputSelect class="form-control" @bind-Value="Cliente.TecnicoEncargadoId">
-                        <option value="">-- Seleccione un tecnico --</option>
+                        <option value="">-- Seleccione un técnico --</option>
                         @foreach (var tecnico in Tecnicos)
                         {
                             <option value="@tecnico.TecnicoId">@tecnico.TecnicoName</option>
@@ -70,6 +70,14 @@
                     </InputSelect>
                     <ValidationMessage For="(() => Cliente.TecnicoEncargadoId)" />
                 </div>
+
+                @* Mensaje de error *@
+                @if (!string.IsNullOrEmpty(Mensaje))
+                {
+                    <div class="alert alert-danger mt-3" role="alert">
+                        @Mensaje
+                    </div>
+                }
 
                 @* Footer *@
                 <div class="card-footer text-center mt-2">
@@ -115,7 +123,7 @@
         var clientesConRnc = await clientesServices.Listar(c => c.RNC == Cliente.RNC);
         if (clientesConRnc.Count == 1 && clientesConRnc[0].ClienteId != Cliente.ClienteId)
         {
-            Mensaje = "Ya existe un cliente con ese rnc";
+            Mensaje = "Ya existe un cliente con ese RNC";
             return;
         }
 

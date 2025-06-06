@@ -22,28 +22,28 @@
                 </a>
             </div>
 
-            @*Labels*@
+            @* Labels *@
             <div class="row">
-                @*Filtrar por ClienteName*@
+                @* Filtrar por ClienteName *@
                 <div class="col-3">
                     <label class="col-form-label">
                         <strong>Filtrar por</strong>
                     </label>
                     <InputSelect class="form-select" @bind-Value="Filtro">
-                        <option value="" selected disabled>Elija una opcion</option>
+                        <option value="" selected disabled>Elija una opci&oacute;n</option>
                         <option value="Id">Id</option>
                         <option value="FechaIngreso">Fecha de Ingreso</option>
                         <option value="ClienteNames">Nombres</option>
-                        <option value="Direccion">Direccion</option>
+                        <option value="Direccion">Direcci&oacute;n</option>
                         <option value="Rnc">RNC</option>
-                        <option value="LimiteCredito">Limite de Credito</option>
-                        <option value="TecnicoId">Tecnico Encargado</option>
+                        <option value="LimiteCredito">L&iacute;mite de Cr&eacute;dito</option>
+                        <option value="TecnicoId">T&eacute;cnico Encargado</option>
                     </InputSelect>
                 </div>
-                @*ValorFiltro*@
+                @* ValorFiltro *@
                 <div class="col-4">
                     <label class="col-form-label">
-                        <strong>Busqueda</strong>
+                        <strong>B&uacute;squeda</strong>
                     </label>
                     <div class="input-group">
                         <input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
@@ -58,10 +58,10 @@
                         <th>Cliente ID</th>
                         <th>Fecha de Ingreso</th>
                         <th>Clientes</th>
-                        <th>Direccion</th>
+                        <th>Direcci&oacute;n</th>
                         <th>RNC</th>
-                        <th>Limite de Credito</th>
-                        <th>Tecnico Encargado</th>
+                        <th>L&iacute;mite de Cr&eacute;dito</th>
+                        <th>T&eacute;cnico Encargado</th>
                         <th>Editar</th>
                     </tr>
                 </thead>
