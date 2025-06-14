@@ -107,7 +107,11 @@ else
 
     private async Task Guardar()
     {
+        if (string.IsNullOrWhiteSpace(Sistema.Description))
+            return;
 
+        await sistemasServices.Guardar(Sistema);
+        navigationManager.NavigateTo(AppRoutes.SIndex);
     }
 
     private void MostrarEliminar()
