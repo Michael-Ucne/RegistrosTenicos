@@ -122,6 +122,10 @@ else
 
     private async Task Eliminar()
     {
-
+        if (Sistema != null)
+        {
+            await sistemasServices.Eliminar(Sistema.SistemaId);
+        }
+        navigationManager.NavigateTo(AppRoutes.SIndex);
     }
 }
