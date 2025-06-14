@@ -75,6 +75,11 @@
 
     public List<Sistema> Sistemas { get; set; } = new List<Sistema>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        Sistemas = await sistemasServices.Listar((t) => t != null);
+    }
+
     private async Task Buscar()
     {
         if (Filtro == "SistemaId")
