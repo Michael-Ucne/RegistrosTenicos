@@ -21,6 +21,7 @@ builder.Services.AddDbContextFactory<Contexto>(o => o.UseNpgsql(ConStr));
 builder.Services.AddScoped<TecnicosServices>();
 builder.Services.AddScoped<ClientesServices>();
 builder.Services.AddScoped<TicketsServices>();
+builder.Services.AddScoped<SistemasServices>();
 builder.Services.AddBlazoredToast();
 
 var app = builder.Build();
