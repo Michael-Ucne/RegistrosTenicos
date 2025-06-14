@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RegistrosTenicos.DAL;
+using RegistrosTenicos.Models;
 
 namespace RegistrosTenicos.Services
 {
@@ -10,6 +11,13 @@ namespace RegistrosTenicos.Services
             await using var contexto = await DbFactory.CreateDbContextAsync();
             return await contexto.Sistema
                 .AnyAsync(t => t.SistemaId == sistemaId);
+        }
+
+        private async Task<bool> Insertar(Sistema sistema)
+        {
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            contexto.Sistema.Add(sistema);
+            return await contexto.SaveChangesAsync() > 0;
         }
     }
 }
