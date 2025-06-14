@@ -63,6 +63,14 @@
 
     private async Task Guardar()
     {
+        var sistemas = await sistemasServices.Listar(s => s.Description == Sistema.Description);
+        if (sistemas.Count == 1 && sistemas[0].SistemaId != Sistema.SistemaId)
+        {
+            return;
+        }
+
+        await sistemasServices.Guardar(Sistema);
+        navigationManager.NavigateTo(AppRoutes.SIndex);
     }
 
     private void Nuevo()
