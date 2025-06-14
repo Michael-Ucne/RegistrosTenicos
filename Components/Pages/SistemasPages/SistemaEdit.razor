@@ -102,7 +102,15 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-
+        var sistemaBuscado = await sistemasServices.Buscar(SistemaId);
+        if (sistemaBuscado != null)
+        {
+            Sistema = sistemaBuscado;
+        }
+        else
+        {
+            Sistema = new Sistema();
+        }
     }
 
     private async Task Guardar()
