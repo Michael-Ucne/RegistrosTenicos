@@ -1,7 +1,127 @@
 ﻿@page "/Sistema/Edit/{SistemaId:int}"
+@inject SistemasServices sistemasServices
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
 
-<h3>SistemaEdit</h3>
+<PageTitle>Editar Sistema</PageTitle>
+
+@if (!mostrandoEliminar)
+{
+    <EditForm Model="Sistema" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="container">
+            <div class="card shadow-lg">
+                <div class="card-header text-center bg-primary text-white">
+                    <h5 class="card-title"><strong>Editar Sistema</strong></h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Sistema ID</strong></label>
+                        <InputNumber class="form-control" @bind-Value="Sistema.SistemaId" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Descripci&oacute;n</strong></label>
+                        <InputText class="form-control" @bind-Value="Sistema.Description" />
+                        <ValidationMessage For="(() => Sistema.Description)" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Complejidad</strong></label>
+                        <InputNumber class="form-control" @bind-Value="Sistema.Complejidad" />
+                        <ValidationMessage For="(() => Sistema.Complejidad)" />
+                    </div>
+
+                    <div class="card-footer text-center mt-2">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-danger bi bi-trash" @onclick="MostrarEliminar">
+                                Eliminar
+                            </button>
+                            <button type="submit" class="btn btn-outline-success bi bi-floppy"> Guardar</button>
+                            <a href="/Sistema" class="btn btn-outline-secondary">
+                                <span class="bi bi-arrow-left"></span> Volver
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
+else
+{
+    <EditForm Model="Sistema" OnValidSubmit="Eliminar">
+        <div class="card shadow-lg">
+            <div class="card-header text-center bg-primary text-white">
+                <h5 class="card-title"><strong>Eliminar Sistema</strong></h5>
+            </div>
+            <div class="card-subtitle text-center bg-danger text-white py-2">
+                <h5>¿Estás seguro de querer eliminar este sistema?</h5>
+            </div>
+
+            <div class="card-body">
+
+             <div class="mb-3">
+                 <label class="form-label"><strong>Sistema ID: </strong>@Sistema.SistemaId</label>
+             </div>
+             <div class="mb-3">
+                 <label class="form-label"><strong>Descripci&oacute;n: </strong>@Sistema.Description</label>
+             </div>
+             <div class="mb-3">
+                 <label class="form-label"><strong>Complejidad: </strong>@Sistema.Complejidad</label>
+             </div>
+            
+            </div>
+
+            <div class="card-footer text-center mt-2">
+                <div class="btn-group" role="group" aria-label="Acciones unidas">
+                    @if (Sistema != null)
+                    {
+                        <button type="submit" class="btn btn-outline-danger bi bi-trash">Eliminar</button>
+                    }
+                    <button type="button" class="btn btn-outline-secondary" @onclick="Volver">
+                        <span class="bi bi-arrow-left"></span> Volver
+                    </button>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
 
 @code {
+    [Parameter]
+    public int SistemaId { get; set; }
 
+    private Sistema Sistema { get; set; } = new Sistema();
+    private bool mostrandoEliminar = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    private async Task Guardar()
+    {
+
+    }
+
+    private void MostrarEliminar()
+    {
+        
+    }   
+
+    private void Volver()
+    {
+        
+    }
+
+    private async Task Eliminar()
+    {
+
+    }
 }
