@@ -38,5 +38,12 @@ namespace RegistrosTenicos.Services
                 return await Modificar(sistema);
             }
         }
+
+        public async Task<Sistema?> Buscar(int sistemaId)
+        {
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            return await contexto.Sistema
+                .FirstOrDefaultAsync(s => s.SistemaId == sistemaId);
+        }
     }
 }
