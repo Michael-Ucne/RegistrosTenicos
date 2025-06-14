@@ -77,6 +77,18 @@
 
     private async Task Buscar()
     {
-        
+        if (Filtro == "SistemaId")
+        {
+            Sistemas = await sistemasServices.Listar((t) => t.SistemaId.ToString().Contains(ValorFiltro));
+        }
+        else if (Filtro == "Description")
+        {
+            Sistemas = await sistemasServices.Listar((t) => t.Description.ToString().Contains(ValorFiltro));
+        }
+        else if (Filtro == "Complejidad")
+        {
+            Sistemas = await sistemasServices.Listar((t) => t.Complejidad.ToString().Contains(ValorFiltro));
+        }
     }
+
 }
