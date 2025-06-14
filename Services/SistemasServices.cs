@@ -45,5 +45,14 @@ namespace RegistrosTenicos.Services
             return await contexto.Sistema
                 .FirstOrDefaultAsync(s => s.SistemaId == sistemaId);
         }
+        public async Task<bool> Eliminar(int sistemaId)
+        {
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            return await contexto.Sistema
+                .AsNoTracking()
+                .Where(s => s.SistemaId == sistemaId)
+                .ExecuteDeleteAsync() > 0;
+        }
+
     }
 }
