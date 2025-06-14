@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RegistrosTenicos.DAL;
 using RegistrosTenicos.Models;
+using System.Linq.Expressions;
 
 namespace RegistrosTenicos.Services
 {
@@ -53,6 +54,13 @@ namespace RegistrosTenicos.Services
                 .Where(s => s.SistemaId == sistemaId)
                 .ExecuteDeleteAsync() > 0;
         }
-
+        public async Task<List<Sistema>> Listar(Expression<Func<Sistema, bool>> criterio)
+        {
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            return await contexto.Sistema
+                .Where(criterio)
+                .AsNoTracking()
+                .ToListAsync();
+        }
     }
 }
