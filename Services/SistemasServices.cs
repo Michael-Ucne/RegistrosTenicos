@@ -19,5 +19,12 @@ namespace RegistrosTenicos.Services
             contexto.Sistema.Add(sistema);
             return await contexto.SaveChangesAsync() > 0;
         }
+
+        private async Task<bool> Modificar(Sistema sistema)
+        {
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            contexto.Update(sistema);
+            return await contexto.SaveChangesAsync() > 0;
+        }
     }
 }
