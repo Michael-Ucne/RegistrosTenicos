@@ -26,5 +26,17 @@ namespace RegistrosTenicos.Services
             contexto.Update(sistema);
             return await contexto.SaveChangesAsync() > 0;
         }
+        public async Task<bool> Guardar(Sistema sistema)
+        {
+            sistema.SistemaId = sistema.SistemaId;
+            if (!await Existe(sistema.SistemaId))
+            {
+                return await Insertar(sistema);
+            }
+            else
+            {
+                return await Modificar(sistema);
+            }
+        }
     }
 }
