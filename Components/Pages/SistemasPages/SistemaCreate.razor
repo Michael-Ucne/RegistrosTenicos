@@ -1,5 +1,72 @@
 ﻿@page "/Sistema/Create"
+@inject SistemasServices sistemasServices
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Crear Sistema</PageTitle>
+<EditForm Model="Sistema" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header text-center bg-primary text-white">
+                <h5 class="card-title">
+                    <strong>Registrar Sistema</strong>
+                </h5>
+            </div>
+
+            <div class="card-body">
+
+                @* SistemaId *@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Sistema ID</strong>
+                        <input class="form-control" @bind="Sistema.SistemaId" readonly />
+                    </label>
+                </div>
+
+                @* Descripcion *@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Descripci&oacute;n</strong>
+                        <InputText class="form-control" @bind-Value="Sistema.Description" />
+                        <ValidationMessage For="(() => Sistema.Description)" />
+                    </label>
+                </div>
+
+                @* Complejidad *@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Complejidad</strong>
+                        <InputNumber class="form-control" @bind-Value="Sistema.Complejidad" />
+                        <ValidationMessage For="(() => Sistema.Complejidad)" />
+                    </label>
+                </div>
+
+                @* Footer *@
+                <div class="card-footer text-center mt-2">
+                    <div class="btn-group" role="group" aria-label="Acciones unidas">
+                        <button type="button" class="btn btn-outline-primary bi bi-file-earmark-plus" @onclick="Nuevo"> Limpiar</button>
+                        <button type="submit" class="btn btn-outline-success bi bi-floppy"> Guardar</button>
+                        <a href="@AppRoutes.SIndex" class="btn btn-outline-secondary">
+                            <span class="bi bi-arrow-left"></span> Volver
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
 
 @code {
+    private Sistema Sistema { get; set; } = new Sistema();
 
+    private async Task Guardar()
+    {
+    }
+
+    private void Nuevo()
+    {
+
+    }
 }
